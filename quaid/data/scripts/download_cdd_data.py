@@ -6,7 +6,7 @@ import argparse
 import logging
 import os
 
-from asapdiscovery.data.services.cdd.cdd_download import (  # noqa: E402
+from quaid.data.services.cdd.cdd_download import (  # noqa: E402
     download_molecules,
 )
 

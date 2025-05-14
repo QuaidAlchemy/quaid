@@ -3,16 +3,16 @@ import subprocess
 import tempfile
 from typing import Literal
 
-from asapdiscovery.data.backend.openeye import (
+from quaid.data.backend.openeye import (
     load_openeye_sdfs,
     oechem,
     oequacpac,
     save_openeye_sdfs,
 )
-from asapdiscovery.data.operators.state_expanders.state_expander import (
+from quaid.data.operators.state_expanders.state_expander import (
     StateExpanderBase,
 )
-from asapdiscovery.data.schema.ligand import Ligand
+from quaid.data.schema.ligand import Ligand
 from pydantic import Field
 
 

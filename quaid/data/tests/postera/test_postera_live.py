@@ -7,18 +7,18 @@ from uuid import uuid4
 import numpy as np
 import pandas as pd
 import pytest
-from asapdiscovery.data.services.postera.manifold_data_validation import (
+from quaid.data.services.postera.manifold_data_validation import (
     ManifoldAllowedTags,
 )
-from asapdiscovery.data.services.postera.molecule_set import (
+from quaid.data.services.postera.molecule_set import (
     MoleculeList,
     MoleculeSetAPI,
     MoleculeSetKeys,
     MoleculeUpdateList,
 )
-from asapdiscovery.data.services.postera.postera_factory import PosteraFactory
-from asapdiscovery.data.services.postera.postera_uploader import PosteraUploader
-from asapdiscovery.data.services.services_config import PosteraSettings
+from quaid.data.services.postera.postera_factory import PosteraFactory
+from quaid.data.services.postera.postera_uploader import PosteraUploader
+from quaid.data.services.services_config import PosteraSettings
 from requests.exceptions import HTTPError
 
 # WARNING IMPORTANT: - this is a live test and will make real requests to the POSTERA API

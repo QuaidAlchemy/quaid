@@ -1,8 +1,8 @@
 import abc
 from typing import Any, Literal
 
-from asapdiscovery.alchemy.schema.base import _SchemaBase
-from asapdiscovery.data.schema.ligand import Ligand
+from quaid.alchemy.schema.base import _SchemaBase
+from quaid.data.schema.ligand import Ligand
 from pydantic import Field
 from tqdm import tqdm
 

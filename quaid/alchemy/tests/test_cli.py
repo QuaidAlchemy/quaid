@@ -7,17 +7,17 @@ import pytest
 import rich
 from alchemiscale import AlchemiscaleClient
 from alchemiscale.models import ScopedKey
-from asapdiscovery.alchemy.cli.cli import alchemy
-from asapdiscovery.alchemy.schema.fec import (
+from quaid.alchemy.cli.cli import alchemy
+from quaid.alchemy.schema.fec import (
     FreeEnergyCalculationFactory,
     FreeEnergyCalculationNetwork,
 )
-from asapdiscovery.alchemy.schema.prep_workflow import (
+from quaid.alchemy.schema.prep_workflow import (
     AlchemyDataSet,
     AlchemyPrepWorkflow,
 )
-from asapdiscovery.data.services.cdd.cdd_api import CDDAPI
-from asapdiscovery.data.testing.test_resources import fetch_test_file
+from quaid.data.services.cdd.cdd_api import CDDAPI
+from quaid.data.testing.test_resources import fetch_test_file
 from click.testing import CliRunner
 from openfe.setup import LigandNetwork
 from rdkit import Chem
@@ -433,9 +433,9 @@ def test_alchemy_prep_run_from_postera(
     tmpdir, mac1_complex, openeye_prep_workflow, monkeypatch
 ):
     """Test running the alchemy prep workflow on a set of mac1 ligands downloaded from postera."""
-    from asapdiscovery.alchemy.cli import utils
-    from asapdiscovery.data.readers.molfile import MolFileFactory
-    from asapdiscovery.data.schema.ligand import Ligand
+    from quaid.alchemy.cli import utils
+    from quaid.data.readers.molfile import MolFileFactory
+    from quaid.data.schema.ligand import Ligand
 
     # locate the ligands input file
     ligand_file = fetch_test_file("constrained_conformer/mac1_ligands.smi")

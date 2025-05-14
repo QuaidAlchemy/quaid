@@ -3,13 +3,13 @@ from uuid import UUID
 
 import numpy as np
 import pandas as pd
-from asapdiscovery.data.backend.rdkit import rdkit_smiles_roundtrip
-from asapdiscovery.data.services.postera.molecule_set import (
+from quaid.data.backend.rdkit import rdkit_smiles_roundtrip
+from quaid.data.services.postera.molecule_set import (
     MoleculeSetAPI,
     MoleculeSetKeys,
 )
-from asapdiscovery.data.services.services_config import PosteraSettings
-from asapdiscovery.docking.docking_data_validation import DockingResultCols
+from quaid.data.services.services_config import PosteraSettings
+from quaid.docking.docking_data_validation import DockingResultCols
 from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)

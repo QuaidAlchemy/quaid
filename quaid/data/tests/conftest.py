@@ -1,9 +1,9 @@
 import pytest
-from asapdiscovery.data.schema.complex import Complex, PreppedComplex
-from asapdiscovery.data.schema.ligand import Ligand
-from asapdiscovery.data.services.cdd.cdd_api import CDDAPI
-from asapdiscovery.data.services.services_config import CDDSettings
-from asapdiscovery.data.testing.test_resources import fetch_test_file
+from quaid.data.schema.complex import Complex, PreppedComplex
+from quaid.data.schema.ligand import Ligand
+from quaid.data.services.cdd.cdd_api import CDDAPI
+from quaid.data.services.services_config import CDDSettings
+from quaid.data.testing.test_resources import fetch_test_file
 
 
 @pytest.fixture(scope="session")

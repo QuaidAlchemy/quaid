@@ -1,10 +1,10 @@
 import pytest
-from asapdiscovery.alchemy.schema.prep_workflow import (
+from quaid.alchemy.schema.prep_workflow import (
     AlchemyPrepWorkflow,
     OpenEyeConstrainedPoseGenerator,
     RDKitConstrainedPoseGenerator,
 )
-from asapdiscovery.data.schema.ligand import Ligand
+from quaid.data.schema.ligand import Ligand
 
 
 @pytest.mark.parametrize(

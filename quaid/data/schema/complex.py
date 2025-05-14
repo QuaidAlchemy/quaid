@@ -4,18 +4,18 @@ import logging
 from pathlib import Path
 from typing import Any
 
-from asapdiscovery.data.backend.openeye import (
+from quaid.data.backend.openeye import (
     combine_protein_ligand,
     load_openeye_design_unit,
     load_openeye_pdb,
     oechem,
     save_openeye_pdb,
 )
-from asapdiscovery.data.schema.ligand import Ligand
-from asapdiscovery.data.schema.schema_base import DataModelAbstractBase
-from asapdiscovery.data.schema.target import PreppedTarget, Target
-from asapdiscovery.modeling.modeling import split_openeye_mol
-from asapdiscovery.modeling.schema import MoleculeFilter
+from quaid.data.schema.ligand import Ligand
+from quaid.data.schema.schema_base import DataModelAbstractBase
+from quaid.data.schema.target import PreppedTarget, Target
+from quaid.modeling.modeling import split_openeye_mol
+from quaid.modeling.schema import MoleculeFilter
 from pydantic import Field
 
 logger = logging.getLogger(__name__)
@@ -169,7 +169,7 @@ class PreppedComplex(ComplexBase):
             PreppedComplex object
         """
         # use local import here to avoid circular imports
-        from asapdiscovery.modeling.protein_prep import ProteinPrepper
+        from quaid.modeling.protein_prep import ProteinPrepper
 
         # overwrite ligand_chain with ligand_chain from complex if it exists
         prep_kwargs.pop("ligand_chain", None)

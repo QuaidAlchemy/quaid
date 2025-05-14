@@ -1,9 +1,9 @@
 import pytest
-from asapdiscovery.data.schema.complex import Complex
-from asapdiscovery.data.sequence import seqres_by_target
-from asapdiscovery.data.services.postera.manifold_data_validation import TargetTags
-from asapdiscovery.data.testing.test_resources import fetch_test_file
-from asapdiscovery.modeling.protein_prep import ProteinPrepper
+from quaid.data.schema.complex import Complex
+from quaid.data.sequence import seqres_by_target
+from quaid.data.services.postera.manifold_data_validation import TargetTags
+from quaid.data.testing.test_resources import fetch_test_file
+from quaid.modeling.protein_prep import ProteinPrepper
 
 
 @pytest.fixture

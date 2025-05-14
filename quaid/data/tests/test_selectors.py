@@ -1,17 +1,17 @@
 import pytest
-from asapdiscovery.data.operators.selectors.mcs_selector import (
+from quaid.data.operators.selectors.mcs_selector import (
     MCSSelector,
     RascalMCESSelector,
 )
-from asapdiscovery.data.operators.selectors.pairwise_selector import (
+from quaid.data.operators.selectors.pairwise_selector import (
     LeaveOneOutSelector,
     LeaveSimilarOutSelector,
     PairwiseSelector,
     SelfDockingSelector,
 )
-from asapdiscovery.data.schema.ligand import Ligand
-from asapdiscovery.data.schema.pairs import CompoundStructurePair
-from asapdiscovery.docking.docking import DockingInputPair  # TODO: move to data
+from quaid.data.schema.ligand import Ligand
+from quaid.data.schema.pairs import CompoundStructurePair
+from quaid.docking.docking import DockingInputPair  # TODO: move to data
 
 
 def test_pairwise_selector(ligands_from_complexes, complexes):

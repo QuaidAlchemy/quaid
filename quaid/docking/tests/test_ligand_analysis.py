@@ -1,9 +1,9 @@
 import numpy as np
 import pytest
-from asapdiscovery.data.backend.openeye import load_openeye_sdf
-from asapdiscovery.data.schema.ligand import Ligand
-from asapdiscovery.data.testing.test_resources import fetch_test_file
-from asapdiscovery.docking.analysis import (
+from quaid.data.backend.openeye import load_openeye_sdf
+from quaid.data.schema.ligand import Ligand
+from quaid.data.testing.test_resources import fetch_test_file
+from quaid.docking.analysis import (
     TanimotoType,
     calculate_rmsd_openeye,
     calculate_tanimoto_oe,

@@ -4,12 +4,12 @@ from uuid import uuid4
 import pandas
 import pytest
 from alchemiscale import Scope, ScopedKey
-from asapdiscovery.alchemy.cli.utils import get_cdd_molecules, upload_to_postera
-from asapdiscovery.alchemy.schema.fec import (
+from quaid.alchemy.cli.utils import get_cdd_molecules, upload_to_postera
+from quaid.alchemy.schema.fec import (
     AlchemiscaleResults,
     FreeEnergyCalculationNetwork,
 )
-from asapdiscovery.alchemy.utils import extract_custom_ligand_network
+from quaid.alchemy.utils import extract_custom_ligand_network
 from gufe.protocols import ProtocolDAGResult, ProtocolUnitResult
 from openfe.protocols.openmm_rfe import RelativeHybridTopologyProtocolResult
 from openff.units import unit as OFFUnit
@@ -309,8 +309,8 @@ def test_get_actioned_weights(alchemiscale_helper, monkeypatch, tyk2_fec_network
 
 def test_upload_to_postera(monkeypatch, tyk2_result_network):
     """A mocked test to make sure the dataframe is formatted correctly ready for upload to postera."""
-    from asapdiscovery.alchemy.predict import get_data_from_femap
-    from asapdiscovery.data.services.postera.postera_uploader import PosteraUploader
+    from quaid.alchemy.predict import get_data_from_femap
+    from quaid.data.services.postera.postera_uploader import PosteraUploader
 
     fe_map = tyk2_result_network.results.to_fe_map()
     fe_map.generate_absolute_values()

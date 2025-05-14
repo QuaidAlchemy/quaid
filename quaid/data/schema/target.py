@@ -2,7 +2,7 @@ import logging
 from pathlib import Path
 from typing import Any, Dict, Optional, Tuple, Union  # noqa: F401
 
-from asapdiscovery.data.backend.openeye import (
+from quaid.data.backend.openeye import (
     bytes64_to_oedu,
     load_openeye_design_unit,
     load_openeye_pdb,
@@ -14,12 +14,12 @@ from asapdiscovery.data.backend.openeye import (
     save_openeye_design_unit,
     save_openeye_pdb,
 )
-from asapdiscovery.data.schema.identifiers import TargetIdentifiers
-from asapdiscovery.modeling.modeling import (  # TODO: move to backend
+from quaid.data.schema.identifiers import TargetIdentifiers
+from quaid.modeling.modeling import (  # TODO: move to backend
     split_openeye_design_unit,
     split_openeye_mol,
 )
-from asapdiscovery.modeling.schema import MoleculeFilter  # TODO: move to backend
+from quaid.modeling.schema import MoleculeFilter  # TODO: move to backend
 from pydantic import Field, root_validator
 
 from .schema_base import (

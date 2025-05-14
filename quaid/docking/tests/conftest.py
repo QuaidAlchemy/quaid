@@ -1,10 +1,10 @@
 import pytest
-from asapdiscovery.data.backend.openeye import oechem
-from asapdiscovery.data.schema.complex import Complex, PreppedComplex
-from asapdiscovery.data.schema.ligand import Ligand
-from asapdiscovery.data.testing.test_resources import fetch_test_file
-from asapdiscovery.docking.docking import DockingInputMultiStructure, DockingInputPair
-from asapdiscovery.docking.openeye import POSITDockingResults
+from quaid.data.backend.openeye import oechem
+from quaid.data.schema.complex import Complex, PreppedComplex
+from quaid.data.schema.ligand import Ligand
+from quaid.data.testing.test_resources import fetch_test_file
+from quaid.docking.docking import DockingInputMultiStructure, DockingInputPair
+from quaid.docking.openeye import POSITDockingResults
 
 
 @pytest.fixture()

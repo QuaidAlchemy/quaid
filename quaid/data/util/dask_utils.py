@@ -6,11 +6,11 @@ from typing import Optional, Union
 
 import dask
 import psutil
-from asapdiscovery.data.util.execution_utils import (
+from quaid.data.util.execution_utils import (
     get_platform,
     hyperthreading_is_enabled,
 )
-from asapdiscovery.data.util.stringenum import StringEnum
+from quaid.data.util.stringenum import StringEnum
 from dask import config as cfg
 from dask.utils import parse_timedelta
 from distributed import Client, LocalCluster

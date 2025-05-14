@@ -7,18 +7,18 @@ from pathlib import Path
 from typing import ClassVar, Literal, Optional, Union
 
 import pandas as pd
-from asapdiscovery.data.backend.openeye import oechem, oedocking, oeomega
-from asapdiscovery.data.schema.ligand import Ligand
-from asapdiscovery.data.util.dask_utils import dask_vmap
-from asapdiscovery.data.util.intenum import IntEnum
-from asapdiscovery.docking.docking import (
+from quaid.data.backend.openeye import oechem, oedocking, oeomega
+from quaid.data.schema.ligand import Ligand
+from quaid.data.util.dask_utils import dask_vmap
+from quaid.data.util.intenum import IntEnum
+from quaid.docking.docking import (
     DockingBase,
     DockingInputBase,
     DockingInputMultiStructure,
     DockingInputPair,
     DockingResult,
 )
-from asapdiscovery.docking.docking_data_validation import DockingResultCols
+from quaid.docking.docking_data_validation import DockingResultCols
 from pydantic import Field, PositiveInt, root_validator
 
 logger = logging.getLogger(__name__)

@@ -3,14 +3,14 @@ import tempfile
 
 import openfe
 import pytest
-from asapdiscovery.alchemy.schema.fec import FreeEnergyCalculationNetwork
-from asapdiscovery.alchemy.schema.prep_workflow import AlchemyPrepWorkflow
-from asapdiscovery.alchemy.utils import AlchemiscaleHelper
-from asapdiscovery.data.readers.molfile import MolFileFactory
-from asapdiscovery.data.schema.complex import PreppedComplex
-from asapdiscovery.data.schema.ligand import Ligand, write_ligands_to_multi_sdf
-from asapdiscovery.data.testing.test_resources import fetch_test_file
-from asapdiscovery.docking.schema.pose_generation import OpenEyeConstrainedPoseGenerator
+from quaid.alchemy.schema.fec import FreeEnergyCalculationNetwork
+from quaid.alchemy.schema.prep_workflow import AlchemyPrepWorkflow
+from quaid.alchemy.utils import AlchemiscaleHelper
+from quaid.data.readers.molfile import MolFileFactory
+from quaid.data.schema.complex import PreppedComplex
+from quaid.data.schema.ligand import Ligand, write_ligands_to_multi_sdf
+from quaid.data.testing.test_resources import fetch_test_file
+from quaid.docking.schema.pose_generation import OpenEyeConstrainedPoseGenerator
 from gufe.protocols import Context, ProtocolUnit, ProtocolUnitFailure
 
 

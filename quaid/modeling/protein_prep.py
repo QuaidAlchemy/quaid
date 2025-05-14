@@ -6,17 +6,17 @@ from typing import TYPE_CHECKING, Literal, Optional, Union
 
 import dask
 import yaml
-from asapdiscovery.data.backend.openeye import oechem
-from asapdiscovery.data.schema.complex import Complex, PreppedComplex
-from asapdiscovery.data.schema.ligand import Ligand
-from asapdiscovery.data.schema.target import PreppedTarget
-from asapdiscovery.data.util.dask_utils import (
+from quaid.data.backend.openeye import oechem
+from quaid.data.schema.complex import Complex, PreppedComplex
+from quaid.data.schema.ligand import Ligand
+from quaid.data.schema.target import PreppedTarget
+from quaid.data.util.dask_utils import (
     FailureMode,
     actualise_dask_delayed_iterable,
 )
-from asapdiscovery.data.util.stringenum import StringEnum
-from asapdiscovery.data.util.utils import seqres_to_res_list
-from asapdiscovery.modeling.modeling import (
+from quaid.data.util.stringenum import StringEnum
+from quaid.data.util.utils import seqres_to_res_list
+from quaid.modeling.modeling import (
     make_design_unit,
     mutate_residues,
     split_openeye_design_unit,
@@ -422,7 +422,7 @@ class LigandTransferProteinPrepper(ProteinPrepper):
 
                 ligand = complex_ref.ligand.to_oemol()
 
-                from asapdiscovery.modeling.modeling import make_du_from_new_lig
+                from quaid.modeling.modeling import make_du_from_new_lig
 
                 success, du = make_du_from_new_lig(
                     aligned,
@@ -434,7 +434,7 @@ class LigandTransferProteinPrepper(ProteinPrepper):
                     )
                     continue
 
-                from asapdiscovery.data.backend.openeye import oedocking
+                from quaid.data.backend.openeye import oedocking
 
                 success = oedocking.OEMakeReceptor(du)
 

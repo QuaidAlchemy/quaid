@@ -1,9 +1,9 @@
 from pathlib import Path
 
-from asapdiscovery.data.backend.openeye import load_openeye_pdb
-from asapdiscovery.data.backend.plip import compute_fint_score
-from asapdiscovery.data.readers.molfile import MolFileFactory
-from asapdiscovery.data.testing.test_resources import fetch_test_file
+from quaid.data.backend.openeye import load_openeye_pdb
+from quaid.data.backend.plip import compute_fint_score
+from quaid.data.readers.molfile import MolFileFactory
+from quaid.data.testing.test_resources import fetch_test_file
 
 
 def test_fint_score():
