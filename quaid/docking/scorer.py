@@ -9,26 +9,27 @@ from typing import Any, ClassVar, Optional, Union
 import MDAnalysis as mda
 import numpy as np
 import pandas as pd
-from asapdiscovery.data.backend.openeye import oedocking, oemol_to_pdb_string
-from asapdiscovery.data.backend.plip import compute_fint_score
-from asapdiscovery.data.schema.complex import Complex
-from asapdiscovery.data.schema.ligand import Ligand, LigandIdentifiers
-from asapdiscovery.data.schema.target import TargetIdentifiers
-from asapdiscovery.data.services.postera.manifold_data_validation import TargetTags
-from asapdiscovery.data.util.dask_utils import (
+from quaid.data.backend.openeye import oedocking, oemol_to_pdb_string
+from quaid.data.backend.plip import compute_fint_score
+from quaid.data.schema.complex import Complex
+from quaid.data.schema.ligand import Ligand, LigandIdentifiers
+from quaid.data.schema.target import TargetIdentifiers
+from quaid.data.services.postera.manifold_data_validation import TargetTags
+from quaid.data.util.dask_utils import (
     BackendType,
     FailureMode,
     backend_wrapper,
     dask_vmap,
 )
-from asapdiscovery.docking.docking import DockingResult
-from asapdiscovery.docking.docking_data_validation import DockingResultCols
-from asapdiscovery.genetics.fitness import target_has_fitness_data
-from asapdiscovery.ml.inference import InferenceBase, get_inference_cls_from_model_type
-from asapdiscovery.ml.models import MLModelSpecBase
+from quaid.docking.docking import DockingResult
+from quaid.docking.docking_data_validation import DockingResultCols
+# from quaid.genetics.fitness import target_has_fitness_data
+# from quaid.ml.inference import InferenceBase, get_inference_cls_from_model_type
+# from quaid.ml.models import MLModelSpecBase
 from mtenn.config import ModelType
 from multimethod import multimethod
 from pydantic import BaseModel, Field, validator
+
 
 logger = logging.getLogger(__name__)
 

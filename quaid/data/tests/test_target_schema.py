@@ -1,9 +1,9 @@
 import os
 
 import pytest
-from asapdiscovery.data.backend.openeye import load_openeye_design_unit, oechem
-from asapdiscovery.data.schema.target import PreppedTarget, Target, TargetIdentifiers
-from asapdiscovery.data.testing.test_resources import fetch_test_file
+from quaid.data.backend.openeye import load_openeye_design_unit, oechem
+from quaid.data.schema.target import PreppedTarget, Target, TargetIdentifiers
+from quaid.data.testing.test_resources import fetch_test_file
 from pydantic import ValidationError
 
 

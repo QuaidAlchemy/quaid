@@ -1,6 +1,6 @@
 import pydantic
 import pytest
-from asapdiscovery.modeling.schema import MoleculeFilter
+from quaid.modeling.schema import MoleculeFilter
 
 
 class TestMoleculeFilter:

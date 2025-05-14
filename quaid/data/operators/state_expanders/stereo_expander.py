@@ -1,10 +1,10 @@
 from typing import Literal
 
-from asapdiscovery.data.backend.openeye import clear_SD_data, oechem, oeomega
-from asapdiscovery.data.operators.state_expanders.state_expander import (
+from quaid.data.backend.openeye import clear_SD_data, oechem, oeomega
+from quaid.data.operators.state_expanders.state_expander import (
     StateExpanderBase,
 )
-from asapdiscovery.data.schema.ligand import Ligand
+from quaid.data.schema.ligand import Ligand
 from pydantic import Field
 
 

@@ -1,6 +1,6 @@
 import logging
 
-from asapdiscovery.data.util.logging import FileLogger
+from quaid.data.util.logging import FileLogger
 
 
 def run_func(name):

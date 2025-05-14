@@ -1,4 +1,4 @@
-from asapdiscovery.data.operators.deduplicator import LigandDeDuplicator
+from quaid.data.operators.deduplicator import LigandDeDuplicator
 
 
 def test_deduplication_all_unique(ligands):

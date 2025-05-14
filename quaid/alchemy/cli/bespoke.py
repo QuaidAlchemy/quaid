@@ -2,7 +2,7 @@ import shutil
 from typing import Optional
 
 import click
-from asapdiscovery.alchemy.cli.utils import SpecialHelpOrder
+from quaid.alchemy.cli.utils import SpecialHelpOrder
 
 
 @click.group(
@@ -49,9 +49,9 @@ def submit(
     been set.
     """
     import rich
-    from asapdiscovery.alchemy.cli.utils import print_header, print_message
-    from asapdiscovery.alchemy.schema.fec import FreeEnergyCalculationNetwork
-    from asapdiscovery.alchemy.utils import BespokeFitHelper
+    from quaid.alchemy.cli.utils import print_header, print_message
+    from quaid.alchemy.schema.fec import FreeEnergyCalculationNetwork
+    from quaid.alchemy.utils import BespokeFitHelper
     from openff.bespokefit.workflows import BespokeWorkflowFactory
     from rich import pretty
 
@@ -161,9 +161,9 @@ def gather(network: str, allow_missing: bool):
         RuntimeError if not all optimisation are complete and allowing missing is False.
     """
     import rich
-    from asapdiscovery.alchemy.cli.utils import print_header, print_message
-    from asapdiscovery.alchemy.schema.fec import FreeEnergyCalculationNetwork
-    from asapdiscovery.alchemy.utils import BespokeFitHelper
+    from quaid.alchemy.cli.utils import print_header, print_message
+    from quaid.alchemy.schema.fec import FreeEnergyCalculationNetwork
+    from quaid.alchemy.utils import BespokeFitHelper
     from rich import pretty
 
     pretty.install()
@@ -238,9 +238,9 @@ def status(network: str):
     Check the progress of the BespokeFit optimisations for this network
     """
     import rich
-    from asapdiscovery.alchemy.cli.utils import print_header, print_message
-    from asapdiscovery.alchemy.schema.fec import FreeEnergyCalculationNetwork
-    from asapdiscovery.alchemy.utils import BespokeFitHelper
+    from quaid.alchemy.cli.utils import print_header, print_message
+    from quaid.alchemy.schema.fec import FreeEnergyCalculationNetwork
+    from quaid.alchemy.utils import BespokeFitHelper
     from rich import pretty
     from rich.table import Table
 

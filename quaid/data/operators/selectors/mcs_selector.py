@@ -3,16 +3,16 @@ import warnings
 from typing import ClassVar, Union
 
 import numpy as np
-from asapdiscovery.data.backend.openeye import oechem
-from asapdiscovery.data.operators.selectors.selector import SelectorBase
-from asapdiscovery.data.schema.complex import Complex, ComplexBase, PreppedComplex
-from asapdiscovery.data.schema.ligand import Ligand
-from asapdiscovery.data.schema.pairs import CompoundStructurePair
-from asapdiscovery.data.util.dask_utils import (
+from quaid.data.backend.openeye import oechem
+from quaid.data.operators.selectors.selector import SelectorBase
+from quaid.data.schema.complex import Complex, ComplexBase, PreppedComplex
+from quaid.data.schema.ligand import Ligand
+from quaid.data.schema.pairs import CompoundStructurePair
+from quaid.data.util.dask_utils import (
     FailureMode,
     actualise_dask_delayed_iterable,
 )
-from asapdiscovery.docking.docking import DockingInputPair  # TODO: move to backend
+from quaid.docking.docking import DockingInputPair  # TODO: move to backend
 from dask import delayed
 from pydantic import Field
 from rdkit import Chem, rdBase

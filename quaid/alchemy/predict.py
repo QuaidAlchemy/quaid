@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 import panel
 import plotmol
-from asapdiscovery.data.schema.ligand import Ligand
+from quaid.data.schema.ligand import Ligand
 from bokeh.models import Band, ColumnDataSource, Range1d, Whisker
 from cinnabar import stats
 from openff.units import unit
@@ -976,9 +976,9 @@ def download_cdd_data(protocol_name: str) -> pd.DataFrame:
     Returns:
         A dataframe of the extracted and formatted experimental data.
     """
-    from asapdiscovery.data.services.cdd.cdd_api import CDDAPI
-    from asapdiscovery.data.services.services_config import CDDSettings
-    from asapdiscovery.data.util.utils import parse_fluorescence_data_cdd
+    from quaid.data.services.cdd.cdd_api import CDDAPI
+    from quaid.data.services.services_config import CDDSettings
+    from quaid.data.util.utils import parse_fluorescence_data_cdd
 
     settings = CDDSettings()
     cdd_api = CDDAPI.from_settings(settings=settings)
@@ -1006,7 +1006,7 @@ def clean_result_network(network, console=None):
     from collections import defaultdict
 
     import numpy as np
-    from asapdiscovery.alchemy.schema.fec import (
+    from quaid.alchemy.schema.fec import (
         AlchemiscaleResults,
         FreeEnergyCalculationNetwork,
         TransformationResult,
@@ -1084,7 +1084,7 @@ def get_top_n_poses(
     If specified, will write a multi-SDF file of those ligands into the local directory while logging this.
     """
 
-    from asapdiscovery.data.schema.ligand import write_ligands_to_multi_sdf
+    from quaid.data.schema.ligand import write_ligands_to_multi_sdf
     from rich.padding import Padding
 
     # get a dict of ligands so we can more easily grab them by name

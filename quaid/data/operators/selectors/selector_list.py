@@ -4,8 +4,8 @@ This collects all the selectors into a single enum
 
 from enum import Enum
 
-from asapdiscovery.data.operators.selectors.mcs_selector import MCSSelector
-from asapdiscovery.data.operators.selectors.pairwise_selector import (
+from quaid.data.operators.selectors.mcs_selector import MCSSelector
+from quaid.data.operators.selectors.pairwise_selector import (
     LeaveOneOutSelector,
     LeaveSimilarOutSelector,
     PairwiseSelector,

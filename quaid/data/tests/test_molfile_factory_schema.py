@@ -1,6 +1,6 @@
 import pytest
-from asapdiscovery.data.readers.molfile import MolFileFactory
-from asapdiscovery.data.testing.test_resources import fetch_test_file
+from quaid.data.readers.molfile import MolFileFactory
+from quaid.data.testing.test_resources import fetch_test_file
 
 
 @pytest.fixture(scope="session")

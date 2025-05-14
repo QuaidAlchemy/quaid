@@ -878,7 +878,7 @@ def set_SD_data(mol: oechem.OEMol, data: dict[str, str | list]) -> oechem.OEMol:
     oechem.OEMol
         OpenEye OEMol with SD data set
     """
-    from asapdiscovery.data.util.data_conversion import get_first_value_of_dict_of_lists
+    from quaid.data.util.data_conversion import get_first_value_of_dict_of_lists
 
     # convert to dict of lists first
     data = {k: v if isinstance(v, list) else [v] for k, v in data.items()}
@@ -947,7 +947,7 @@ def get_SD_data(mol: oechem.OEMolBase) -> dict[str, list]:
     TypeError
         If mol is a type that cant be converted to an OEMol, OEGraphMol, or OEConfBase
     """
-    from asapdiscovery.data.util.data_conversion import (
+    from quaid.data.util.data_conversion import (
         get_dict_of_lists_from_dict_of_str,
         get_dict_of_lists_from_list_of_dicts,
     )

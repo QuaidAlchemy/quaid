@@ -1,8 +1,8 @@
 import pytest
-from asapdiscovery.data.backend.openeye import load_openeye_pdb, oechem
-from asapdiscovery.data.testing.test_resources import fetch_test_file
-from asapdiscovery.modeling.modeling import split_openeye_mol
-from asapdiscovery.modeling.schema import MoleculeFilter
+from quaid.data.backend.openeye import load_openeye_pdb, oechem
+from quaid.data.testing.test_resources import fetch_test_file
+from quaid.modeling.modeling import split_openeye_mol
+from quaid.modeling.schema import MoleculeFilter
 
 
 @pytest.fixture()

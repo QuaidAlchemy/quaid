@@ -8,15 +8,15 @@ from pathlib import Path
 import numpy as np
 import xmltodict
 import yaml
-from asapdiscovery.data.backend.openeye import (
+from quaid.data.backend.openeye import (
     combine_protein_ligand,
     oechem,
     save_openeye_pdb,
 )
-from asapdiscovery.data.metadata.resources import FINTSCORE_PARAMETERS
-from asapdiscovery.data.services.postera.manifold_data_validation import TargetTags
-from asapdiscovery.dataviz._gif_blocks import GIFBlockData
-from asapdiscovery.genetics.fitness import parse_fitness_json, target_has_fitness_data
+from quaid.data.metadata.resources import FINTSCORE_PARAMETERS
+from quaid.data.services.postera.manifold_data_validation import TargetTags
+# from quaid.dataviz._gif_blocks import GIFBlockData
+# from quaid.genetics.fitness import parse_fitness_json, target_has_fitness_data
 
 logger = logging.getLogger(__name__)
 

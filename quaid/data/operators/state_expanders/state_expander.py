@@ -1,7 +1,7 @@
 import abc
 from typing import Literal
 
-from asapdiscovery.data.schema.ligand import Ligand
+from quaid.data.schema.ligand import Ligand
 from pydantic import BaseModel, Field
 
 

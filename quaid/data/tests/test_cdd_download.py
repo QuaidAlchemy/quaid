@@ -7,7 +7,7 @@ import os
 import pandas
 import pytest
 import requests_mock
-from asapdiscovery.data.services.cdd.cdd_download import (
+from quaid.data.services.cdd.cdd_download import (
     CDD_URL,
     MOONSHOT_ALL_SMI_SEARCH,
     MOONSHOT_NONCOVALENT_SMI_SEARCH,
@@ -15,8 +15,8 @@ from asapdiscovery.data.services.cdd.cdd_download import (
     download_molecules,
     download_url,
 )
-from asapdiscovery.data.testing.test_resources import fetch_test_file
-from asapdiscovery.data.util.utils import (
+from quaid.data.testing.test_resources import fetch_test_file
+from quaid.data.util.utils import (
     filter_molecules_dataframe,
     parse_fluorescence_data_cdd,
 )

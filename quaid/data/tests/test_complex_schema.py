@@ -1,7 +1,7 @@
 import pytest
-from asapdiscovery.data.backend.openeye import load_openeye_pdb
-from asapdiscovery.data.schema.complex import Complex, PreppedComplex
-from asapdiscovery.data.testing.test_resources import fetch_test_file
+from quaid.data.backend.openeye import load_openeye_pdb
+from quaid.data.schema.complex import Complex, PreppedComplex
+from quaid.data.testing.test_resources import fetch_test_file
 from pydantic import ValidationError
 
 

@@ -1,4 +1,4 @@
-from asapdiscovery.data.schema.experimental import ExperimentalCompoundData
+from quaid.data.schema.experimental import ExperimentalCompoundData
 from pydantic import BaseModel, Field
 
 

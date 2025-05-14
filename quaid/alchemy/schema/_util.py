@@ -2,7 +2,7 @@ from collections import Counter
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from asapdiscovery.data.schema.ligand import Ligand
+    from quaid.data.schema.ligand import Ligand
 
 
 def check_ligand_series_uniqueness_and_names(ligands: list["Ligand"]) -> None:

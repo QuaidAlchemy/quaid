@@ -2,20 +2,20 @@ from typing import TYPE_CHECKING, Optional
 
 import numpy as np
 from alchemiscale import Scope, ScopedKey
-from asapdiscovery.alchemy.interfaces import AlchemiscaleSettings
-from asapdiscovery.alchemy.schema.fec import (
+from quaid.alchemy.interfaces import AlchemiscaleSettings
+from quaid.alchemy.schema.fec import (
     AlchemiscaleFailure,
     AlchemiscaleResults,
     FreeEnergyCalculationNetwork,
     TransformationResult,
 )
-from asapdiscovery.alchemy.schema.forcefield import ForceFieldParams
+from quaid.alchemy.schema.forcefield import ForceFieldParams
 from openmm.app import ForceField, Modeller, PDBFile
 
 if TYPE_CHECKING:
-    from asapdiscovery.data.schema.complex import PreppedComplex
-    from asapdiscovery.data.schema.ligand import Ligand
-    from asapdiscovery.data.schema.target import PreppedTarget
+    from quaid.data.schema.complex import PreppedComplex
+    from quaid.data.schema.ligand import Ligand
+    from quaid.data.schema.target import PreppedTarget
     from openff.bespokefit.workflows import BespokeWorkflowFactory
 
 
@@ -415,7 +415,7 @@ def select_reference_for_compounds(
     Returns:
         The PreppedComplex most suitable for the input ligands and the largest ligand that it was selected to match.
     """
-    from asapdiscovery.data.operators.selectors.mcs_selector import sort_by_mcs
+    from quaid.data.operators.selectors.mcs_selector import sort_by_mcs
 
     # sort the ligands by the number of atoms
     compounds_by_size = [
@@ -574,7 +574,7 @@ class BespokeFitHelper:
         Returns:
             The network with the bespoke parameters stored on the ligands.
         """
-        from asapdiscovery.data.schema.identifiers import (
+        from quaid.data.schema.identifiers import (
             BespokeParameter,
             BespokeParameters,
         )

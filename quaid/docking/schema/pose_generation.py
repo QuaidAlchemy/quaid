@@ -2,7 +2,7 @@ import abc
 from enum import Enum
 from typing import Any, Literal, Optional
 
-from asapdiscovery.data.backend.openeye import (
+from quaid.data.backend.openeye import (
     get_SD_data,
     oechem,
     oedocking,
@@ -10,8 +10,8 @@ from asapdiscovery.data.backend.openeye import (
     oeomega,
     set_SD_data,
 )
-from asapdiscovery.data.schema.complex import PreppedComplex
-from asapdiscovery.data.schema.ligand import Ligand
+from quaid.data.schema.complex import PreppedComplex
+from quaid.data.schema.ligand import Ligand
 from pydantic import BaseModel, Field, PositiveFloat, PositiveInt
 from rdkit import Chem, RDLogger
 
@@ -371,7 +371,7 @@ class OpenEyeConstrainedPoseGenerator(_BasicConstrainedPoseGenerator):
         Returns:
             The openeye molecule containing the posed conformers.
         """
-        from asapdiscovery.data.backend.openeye import get_SD_data, set_SD_data
+        from quaid.data.backend.openeye import get_SD_data, set_SD_data
 
         if core_smarts is not None:
             core_fragment = self._generate_core_fragment(

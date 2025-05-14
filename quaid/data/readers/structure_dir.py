@@ -3,8 +3,8 @@ from pathlib import Path
 from typing import List  # noqa: F401
 
 import dask
-from asapdiscovery.data.schema.complex import Complex
-from asapdiscovery.data.util.dask_utils import (
+from quaid.data.schema.complex import Complex
+from quaid.data.util.dask_utils import (
     FailureMode,
     actualise_dask_delayed_iterable,
 )

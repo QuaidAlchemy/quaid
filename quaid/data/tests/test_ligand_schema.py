@@ -1,15 +1,15 @@
 from uuid import uuid4
 
 import pytest
-from asapdiscovery.data.backend.openeye import (
+from quaid.data.backend.openeye import (
     get_SD_data,
     load_openeye_sdf,
     set_SD_data,
 )
-from asapdiscovery.data.schema.experimental import ExperimentalCompoundData
-from asapdiscovery.data.schema.identifiers import LigandIdentifiers, LigandProvenance
-from asapdiscovery.data.schema.ligand import Ligand
-from asapdiscovery.data.testing.test_resources import fetch_test_file
+from quaid.data.schema.experimental import ExperimentalCompoundData
+from quaid.data.schema.identifiers import LigandIdentifiers, LigandProvenance
+from quaid.data.schema.ligand import Ligand
+from quaid.data.testing.test_resources import fetch_test_file
 
 
 @pytest.fixture(scope="session")

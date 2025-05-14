@@ -8,7 +8,7 @@ import pathlib
 
 import pkg_resources
 import pytest
-from asapdiscovery.data.services.rcsb.rcsb_download import download_pdb_structure
+from quaid.data.services.rcsb.rcsb_download import download_pdb_structure
 
 
 class TestAsapPDB:
@@ -38,7 +38,7 @@ class TestAsapPDB:
 
     def test_load_save_openeye_pdb(self, tmp_path):
         """Test that a downloaded pdb file can be loaded with the openeye-specific functions"""
-        from asapdiscovery.data.backend.openeye import (
+        from quaid.data.backend.openeye import (
             load_openeye_pdb,
             save_openeye_pdb,
         )
@@ -58,7 +58,7 @@ class TestLigands:
 
     def test_ligand_filtering(self):
         """Test SMARTS pattern matching ligand filtering"""
-        from asapdiscovery.data.util import utils
+        from quaid.data.util import utils
 
         # First, parse the fragalysis directory and
         csv_file = "CSV_FILE_NEEDED_HERE.csv"
