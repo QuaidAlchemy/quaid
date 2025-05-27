@@ -14,7 +14,7 @@ from quaid.data.operators.state_expanders.tautomer_expander import (
 )
 from quaid.data.schema.complex import PreppedComplex
 from quaid.data.schema.ligand import Ligand
-from quaid.docking.schema.pose_generation import (
+from quaid.docking.pose_generation import (
     OpenEyeConstrainedPoseGenerator,
     RDKitConstrainedPoseGenerator,
 )

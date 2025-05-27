@@ -1,0 +1,45 @@
+name: quaid
+channels:
+  - conda-forge
+dependencies:
+  # Base depends
+  - pip
+  - python >=3.10,<3.12
+  # Testing
+  - pytest
+  - pytest-cov
+  - pytest-xdist
+  - codecov
+  - pytest-console-scripts
+  - pytest-timeout
+  - requests-mock
+  - mock
+
+  # cli
+  - click
+
+  # Others
+  - mdanalysis
+  - openff-toolkit
+#  - openff-fragmenter <0.2.2
+#  - openff-bespokefit >=0.4.0
+  - openff-forcefields >=2024.04.0
+  - openmmforcefields >= 0.13.0
+  - pandas
+  - pydantic >=1.10.8,<2.0.0a0
+  - rdkit
+  - seaborn
+  - panel
+  - plotmol
+  - scipy >=1.13.1
+
+  # data
+  - typing-extensions
+
+  # simulation
+  - openfe >=1.1.0
+  - gufe >=1.0.0
+  - kartograf
+  - rich
+  - alchemiscale-client >=0.5.1
+  - cinnabar >=0.4.1

@@ -28,6 +28,9 @@ requires-python = ">=3.8"
 "Source" = "https://github.com/QuaidAlchemy/quaid/"
 #"Documentation" = "https://quaid.readthedocs.io/"
 
+[project.scripts]
+quaid-alchemy = "quaid.cli.cli:alchemy"
+
 [project.optional-dependencies]
 test = [
   "pytest>=6.1.2",

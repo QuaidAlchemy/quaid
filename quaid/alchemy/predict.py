@@ -174,37 +174,6 @@ def dG_to_pIC50(dG):
     )  # abs to prevent pIC50s from being negative in cases where 0<DG<1.
 
 
-def dg_to_postera_dataframe(absolute_predictions: pd.DataFrame) -> pd.DataFrame:
-    """
-    Given a wrangled `FEMap` dataframe of absolute predicted DG values (kcal/mol), replace 'kcal/mol' columns with
-    pIC50 values and rename the columns to match what's expected by manifold. These names are defined in
-    data.services.postera.manifold_data_tags.yaml
-
-    Args:
-        absolute_predictions: The dataframe of absolute DG predictions from asap-alchemy
-
-    Returns:
-        A copy of the dataframe with calculated pIC50 values rather than DGs ready for upload to postera.
-    """
-    # use the expected column names from alchemy predict and convert them into the allowed column names defined in
-    # data.services.postera.manifold_data_tags.yaml
-    postera_df = absolute_predictions.copy(deep=True)
-
-    for column, new_name in [
-        ("DG (kcal/mol) (FECS)", "FEC"),
-        ("uncertainty (kcal/mol) (FECS)", "FEC-uncertainty"),
-    ]:
-        # replace the kcal/mol values with pIC50s.
-        postera_df[column] = dG_to_pIC50(postera_df[column].values)
-
-        # rename the column
-        postera_df.rename(columns={column: f"computed-{new_name}-pIC50"}, inplace=True)
-    # rename the label column to be clear in postera
-    postera_df.rename(columns={"label": "Ligand_ID"}, inplace=True)
-
-    return postera_df
-
-
 def add_identifiers_to_df(dataframe: pd.DataFrame, ligands: list) -> pd.DataFrame:
     """
     Given a wrangled DF containing either `label` (absolute) or `labelA` and `labelB` (relative),
@@ -426,7 +395,6 @@ def get_data_from_femap(
     ligands: list,
     assay_units: Optional[str] = None,
     reference_dataset: Optional[str] = None,
-    cdd_protocol: Optional[str] = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
     Given a `cinnabar` `FEMap` add the experimental reference data and generate and return:
@@ -438,7 +406,6 @@ def get_data_from_femap(
         ligands: The list of asap ligands which are part of the network.
         assay_units: The units of the experimental data, which should be extracted from the reference dataset.
         reference_dataset: The name of the cdd csv file which contains the experimental data.
-        cdd_protocol: The name of the CDD protocol from which we should extract experimental data.
 
     Returns:
          An absolute and relative free energy prediction dataframe.
@@ -475,8 +442,6 @@ def get_data_from_femap(
         experimental_data = extract_experimental_data(
             reference_csv=reference_dataset, assay_units=assay_units
         )
-    elif cdd_protocol:
-        experimental_data = download_cdd_data(protocol_name=cdd_protocol)
 
     if experimental_data is not None:
         add_absolute_expt(dataframe=absolute_df, experimental_data=experimental_data)
@@ -484,10 +449,6 @@ def get_data_from_femap(
 
         absolute_df = shift_and_add_prediction_error(df=absolute_df, point_type="DG")
         relative_df = shift_and_add_prediction_error(df=relative_df, point_type="DDG")
-
-    # now also add the calculated pCI50 absolute dataframe which is used .
-    # absolute_df = dg_to_pic50_dataframe(absolute_df)
-    # relative_df_wrangled_pic50 = dg_to_pic50_dataframe(relative_df_wrangled)
 
     return absolute_df, relative_df
 
@@ -964,33 +925,6 @@ def create_relative_report(dataframe: pd.DataFrame) -> panel.Column:
         scroll=True,
     )
     return layout
-
-
-def download_cdd_data(protocol_name: str) -> pd.DataFrame:
-    """
-    A wrapper method to download CDD protocol data, mainly used to tuck imports.
-
-    Args:
-        protocol_name: The name of the CDD protocol to extract experimental data for.
-
-    Returns:
-        A dataframe of the extracted and formatted experimental data.
-    """
-    from quaid.data.services.cdd.cdd_api import CDDAPI
-    from quaid.data.services.services_config import CDDSettings
-    from quaid.data.util.utils import parse_fluorescence_data_cdd
-
-    settings = CDDSettings()
-    cdd_api = CDDAPI.from_settings(settings=settings)
-
-    ic50_data = cdd_api.get_ic50_data(protocol_name=protocol_name)
-    # format the data to add the pIC50 and error
-    formatted_data = parse_fluorescence_data_cdd(
-        mol_df=ic50_data, assay_name=protocol_name
-    )
-
-    return formatted_data
-
 
 def clean_result_network(network, console=None):
     """

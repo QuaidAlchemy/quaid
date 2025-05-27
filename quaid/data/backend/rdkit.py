@@ -21,94 +21,10 @@ def _set_SD_data(mol: Union[Chem.Mol, Chem.Conformer], data: dict[str, str]):
         mol.SetProp(str(key), str(value))
 
 
-def set_SD_data(mol: Chem.Mol, data: dict[str, str | list]):
-    """
-    Set the SD data on an rdkit molecule, overwriting any existing data.
-    If the length of a list is 1, will set that value to all conformers.
-    If the length of a list is equal to the number of conformers, will set each value to the corresponding conformer.
-    Finally, it will set the properties for the whole molecule to be the data for the first conformer.
-    Otherwise, will raise a ValueError.
-
-    Parameters
-    ----------
-    mol: rdkit.Chem.Mol
-        rdkit molecule
-
-    data: dict[str, list]
-        Dictionary of SD data to set.
-        Each key should be a tag name and each value should be a list of values, one for each conformer.
-    """
-    num_confs = mol.GetNumConformers()
-
-    # convert to dict of lists first
-    data = {k: v if isinstance(v, list) else [v] for k, v in data.items()}
-
-    for key, value in data.items():
-        if len(value) == 1:
-            for conf in mol.GetConformers():
-                conf.SetProp(str(key), str(value[0]))
-        elif len(value) == num_confs:
-            for i, conf in enumerate(mol.GetConformers()):
-                conf.SetProp(str(key), str(value[i]))
-        else:
-            raise ValueError(
-                f"Length of data for tag '{key}' does not match number of conformers ({num_confs}). "
-                f"Expected {num_confs} but got {len(value)} elements."
-            )
-
-    # Set the properties for the highest level to be the data for the first conformer
-    from quaid.data.util.data_conversion import get_first_value_of_dict_of_lists
-
-    first_conf_data = get_first_value_of_dict_of_lists(data)
-    _set_SD_data(mol, first_conf_data)
-
-
-def _get_SD_data(mol: Union[Chem.Mol, Chem.Conformer]) -> dict[str, str]:
-    """
-    Get the SD data from an RDKit molecule or conformer
-
-    Parameters
-    ----------
-    mol: Union[Chem.Mol, Chem.Conformer]
-        RDKit molecule or conformer
-
-    Returns
-    -------
-    dict
-        Dictionary of SD data
-    """
-    return mol.GetPropsAsDict()
-
-
-def get_SD_data(mol: Chem.Mol) -> dict[str, list]:
-    """
-    Get the SD data from an RDKit molecule.
-    If there are multiple conformers, will get data from the conformers,
-    so properties saved to mol.Prop will be ignored.
-
-    Parameters
-    ----------
-    mol: Chem.Mol
-        RDKit molecule
-
-    Returns
-    -------
-    dict
-        Dictionary of SD data
-    """
-    if mol.GetNumConformers() == 1:
-        from quaid.data.util.data_conversion import (
-            get_dict_of_lists_from_dict_of_str,
-        )
-
-        return get_dict_of_lists_from_dict_of_str(_get_SD_data(mol))
-
-    from quaid.data.util.data_conversion import (
-        get_dict_of_lists_from_list_of_dicts,
-    )
-
-    data_list = [_get_SD_data(conf) for conf in mol.GetConformers()]
-    return get_dict_of_lists_from_list_of_dicts(data_list)
+def _clear_SD_data(mol: Chem.Mol):
+    for prop in mol.GetPropNames():
+        mol.ClearProp(prop)
+    return mol
 
 
 def load_sdf(file: Union[str, Path]) -> Chem.Mol:
@@ -186,3 +102,82 @@ def rdkit_smiles_roundtrip(smi: str) -> str:
     """
     mol = Chem.MolFromSmiles(smi)
     return Chem.MolToSmiles(mol)
+
+def rdkit_mol_to_smiles(mol: Chem.Mol) -> str:
+    """
+    Convert an RDKit molecule to a SMILES string
+
+    Parameters
+    ----------
+    mol : Chem.Mol
+        RDKit molecule
+
+    Returns
+    -------
+    str
+        SMILES string
+    """
+    return Chem.MolToSmiles(mol, isomericSmiles=True, canonical=True)
+
+def rdkit_mol_to_inchi(mol: Chem.Mol, fixed_hydrogens: bool = False) -> str:
+    """
+    Convert an RDKit molecule to an InChI string
+
+    Parameters
+    ----------
+    mol : Chem.Mol
+        RDKit molecule
+    fixed_hydrogens : bool, optional
+        Whether to use fixed hydrogens in the InChI string, by default False
+
+    Returns
+    -------
+    str
+        InChI string
+    """
+    inchi_options = "/LargeMolecules"
+    if fixed_hydrogens:
+        inchi_options += " /FixedH"
+    return Chem.MolToInchi(mol, inchi_options)
+
+def rdkit_mol_to_inchi_key(mol: Chem.Mol, fixed_hydrogens: bool = False) -> str:
+    """
+    Convert an RDKit molecule to an InChI Key string
+
+    Parameters
+    ----------
+    mol : Chem.Mol
+        RDKit molecule
+    fixed_hydrogens : bool, optional
+        Whether to use fixed hydrogens in the InChI string, by default False
+
+    Returns
+    -------
+    str
+        InChI Key string
+    """
+    inchi_options = "/LargeMolecules"
+    if fixed_hydrogens:
+        inchi_options += " /FixedH"
+
+    return Chem.MolToInchiKey(mol, inchi_options)
+
+
+def rdkit_mol_from_smiles(smi: str) -> Chem.Mol:
+    """
+    Convert a SMILES string to an RDKit molecule
+
+    Parameters
+    ----------
+    smi : str
+        SMILES string
+
+    Returns
+    -------
+    Chem.Mol
+        RDKit molecule
+    """
+    mol = Chem.MolFromSmiles(smi)
+    if mol is None:
+        raise ValueError(f"Could not convert SMILES '{smi}' to RDKit molecule.")
+    return mol

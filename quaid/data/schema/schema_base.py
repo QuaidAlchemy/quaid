@@ -1,19 +1,11 @@
 from __future__ import annotations
 
 import json
-from enum import Enum
 from pathlib import Path
 
-from pydantic import BaseModel, ByteSize
+from pydantic .v1 import BaseModel, ByteSize, Field
 
 _SCHEMA_VERSION = "0.1.0"
-
-
-class DataStorageType(str, Enum):
-    sdf = "sdf"
-    pdb = "pdb"
-    b64oedu = "b64oedu"
-
 
 def read_file_directly(file: str | Path) -> str:
     with open(str(file)) as f:
@@ -40,7 +32,7 @@ def check_strings_for_equality_with_exclusion(string1, string2, exclusion_string
 
 class DataModelAbstractBase(BaseModel):
     """
-    Base class for asapdiscovery pydantic models that simplify dictionary, JSON
+    Base class for quaid pydantic models that simplify dictionary, JSON
     and other behaviour
     """
 

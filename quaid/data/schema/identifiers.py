@@ -1,54 +1,7 @@
 from typing import Any, Literal, Optional
 
 from quaid.data.schema.schema_base import DataModelAbstractBase
-from quaid.data.services.postera.manifold_data_validation import TargetTags
-from pydantic import BaseModel, Field, validator
-
-
-class LigandIdentifiers(DataModelAbstractBase):
-    """
-    This is a schema for the identifiers associated with a ligand, optional identifiers are used as part of the ASAP
-    workflow. Non-optional identifiers track the state of the molecule to ensure it is always consistent between the
-    SDF data and the original input ligand.
-
-    Parameters
-    ----------
-    moonshot_compound_id : Optional[str], optional
-        Moonshot compound ID, by default None
-    manifold_api_id : Optional[UUID], optional
-        Unique ID from Postera Manifold API, by default None
-    manifold_vc_id : Optional[str], optional
-        Unique VC ID (virtual compound ID) from Postera Manifold, by default None
-    compchem_id : Optional[UUID4], optional
-        Unique ID for P5 compchem reference, unused for now, by default None
-    """
-
-    moonshot_compound_id: Optional[str] = Field(
-        None, description="Moonshot compound ID"
-    )
-    manifold_api_id: Optional[str] = Field(
-        None, description="Unique ID from Postera Manifold API"
-    )
-    manifold_vc_id: Optional[str] = Field(
-        None, description="Unique VC ID (virtual compound ID) from Postera Manifold"
-    )
-    compchem_id: Optional[str] = Field(
-        None, description="Unique ID for P5 compchem reference, unused for now"
-    )
-
-    class Config:
-        allow_mutation = False
-
-    @validator("manifold_api_id", "compchem_id", pre=True)
-    def cast_uuids(cls, v):
-        """
-        Cast UUIDS to string
-        """
-        if v is None:
-            return None
-        else:
-            return str(v)
-
+from pydantic import BaseModel, Field
 
 class LigandProvenance(DataModelAbstractBase):
     class Config:
@@ -76,13 +29,9 @@ class TargetIdentifiers(DataModelAbstractBase):
     Identifiers for a Target
     """
 
-    target_type: Optional[TargetTags] = Field(
+    target_type: Optional[str] = Field(
         None,
         description="Tag describing the target type e.g SARS-CoV-2-Mpro, etc.",
-    )
-
-    fragalysis_id: Optional[str] = Field(
-        None, description="The Fragalysis ID of the target if applicable"
     )
 
     pdb_code: Optional[str] = Field(

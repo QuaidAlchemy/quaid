@@ -1,6 +1,5 @@
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
-from quaid.data.schema.identifiers import LigandIdentifiers
 from pydantic import BaseModel, Field
 
 if TYPE_CHECKING:
@@ -21,11 +20,6 @@ class StateExpansionTag(BaseModel):
     parent_smiles: str = Field(
         ..., description="The isomeric smiles string for the parent."
     )
-    parent_identifiers: Optional[LigandIdentifiers] = Field(
-        ...,
-        description="The set of parent identifiers which can be used to "
-        "identify the parent in a workflow.",
-    )
     provenance: dict[str, Any] = Field(
         ...,
         description="Provenance of the software used during the expansion and the state expander.",
@@ -42,6 +36,5 @@ class StateExpansionTag(BaseModel):
         return cls(
             parent_fixed_inchikey=parent.fixed_inchikey,
             parent_smiles=parent.smiles,
-            parent_identifiers=parent.ids,
             provenance=provenance,
         )
