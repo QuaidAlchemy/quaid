@@ -8,7 +8,7 @@ from quaid.data.backend.openeye import (
     oeomega,
     set_SD_data,
 )
-from quaid.data.schema.complex import PreppedComplex
+from quaid.data.schema.complex import Complex
 from quaid.data.schema.ligand import Ligand
 from pydantic.v1 import Field, PositiveFloat, PositiveInt
 from rdkit import Chem, RDLogger
@@ -34,6 +34,11 @@ class RDKitConstrainedPoseGenerator(_BasicConstrainedPoseGenerator):
     mcs_timeout: PositiveInt = Field(
         1, description="The timeout in seconds to run the mcs search in RDKit."
     )
+
+    @classmethod
+    def is_available(cls) -> bool:
+        # rdkit is always available if the package is installed
+        return True
 
     def provenance(self) -> dict[str, Any]:
         import openff.toolkit
@@ -227,7 +232,7 @@ class RDKitConstrainedPoseGenerator(_BasicConstrainedPoseGenerator):
 
     def _generate_poses(
         self,
-        prepared_complex: PreppedComplex,
+        prepared_complex: Complex,
         ligands: list[Ligand],
         core_smarts: Optional[str] = None,
         processors: int = 1,

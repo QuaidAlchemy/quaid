@@ -6,6 +6,8 @@ from quaid.data.backend.openeye import (
     oeomega,
     set_SD_data,
 )
+from quaid.data.schema.complex import Complex
+from quaid.data.schema.ligand import Ligand
 from quaid.pose_generation.base import _BasicConstrainedPoseGenerator
 from typing import Literal, Any, Optional
 from pydantic.v1 import PositiveInt, Field, PositiveFloat
@@ -21,6 +23,21 @@ class OpenEyeConstrainedPoseGenerator(_BasicConstrainedPoseGenerator):
         description="Sets the maximum allowable energy difference between the lowest and the highest energy conformers,"
         " in units of kcal/mol.",
     )
+
+    @classmethod
+    def is_available(cls) -> bool:
+        """
+        Check if the OpenEye tools are available in the current environment.
+        This checks for the presence of oechem, oeomega, oedocking, and oeff.
+        """
+        try:
+            import openeye.oechem as oechem
+            import openeye.oeomega as oeomega
+            import openeye.oedocking as oedocking
+            import openeye.oeff as oeff
+            return True
+        except ImportError:
+            return False
 
     def provenance(self) -> dict[str, Any]:
         return {
@@ -188,7 +205,7 @@ class OpenEyeConstrainedPoseGenerator(_BasicConstrainedPoseGenerator):
 
     def _generate_poses(
         self,
-        prepared_complex: PreppedComplex,
+        prepared_complex: Complex,
         ligands: list[Ligand],
         core_smarts: Optional[str] = None,
         processors: int = 1,

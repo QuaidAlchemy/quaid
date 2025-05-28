@@ -173,7 +173,7 @@ class Ligand(DataModelAbstractBase):
         # if we have partial charges set them on the atoms assuming the atom ordering is not changed
         if "atom.dprop.PartialCharge" in self.tags:
             for i, charge in enumerate(
-                self.tags["atom.dprop.PartialCharge"].split(" ")
+                self.tags["atom.dprop.PartialCharge"].replace("\n", " ").split(" ")
             ):
                 atom = rdkit_mol.GetAtomWithIdx(i)
                 atom.SetDoubleProp("PartialCharge", float(charge))
@@ -210,7 +210,7 @@ class Ligand(DataModelAbstractBase):
             try:
                 # check to see if we have JSON of a model field
                 kwargs[key] = json.loads(value)
-            except json.JSONDecodeError:
+            except (json.JSONDecodeError, TypeError):
                 kwargs[key] = value
 
         # extract all passed kwargs as a tag if it has no field in the model

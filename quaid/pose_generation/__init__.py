@@ -1,3 +1,2 @@
-"""Computational chemistry packages developed by the ASAP Discovery Consortium."""
-
-from importlib.metadata import version
+from quaid.pose_generation.openeye import OpenEyeConstrainedPoseGenerator
+from quaid.pose_generation.rdkit import RDKitConstrainedPoseGenerator
