@@ -189,7 +189,7 @@ class _BasicConstrainedPoseGenerator(BaseModel, abc.ABC):
                 poses = sorted(poses, key=lambda x: x[0])
                 best_pose = oechem.OEGraphMol(poses[0][1])
 
-                # set SD data to whole molecule, then get all the SD data and set to all conformers
+                # set SD test_data to whole molecule, then get all the SD test_data and set to all conformers
                 set_SD_data(
                     best_pose, {f"{self.selector.value}_score": str(poses[0][0])}
                 )

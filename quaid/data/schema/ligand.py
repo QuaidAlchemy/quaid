@@ -55,8 +55,8 @@ class Ligand(DataModelAbstractBase):
     Has first class serialization support for SDF files as well as the typical JSON and dictionary
     serialization.
 
-    Note that equality comparisons are done on the chemical structure data found in the `data` field, not the other fields or the SD Tags in the original SDF
-    This means you can change the other fields and still have equality, but changing the chemical structure data will change
+    Note that equality comparisons are done on the chemical structure test_data found in the `test_data` field, not the other fields or the SD Tags in the original SDF
+    This means you can change the other fields and still have equality, but changing the chemical structure test_data will change
     equality.
 
     You must provide either a compound_name or ids field otherwise the ligand will be invalid.
@@ -68,14 +68,14 @@ class Ligand(DataModelAbstractBase):
     tags : dict[str, str], optional
         Dictionary of SD tags, by default {}
     data : str, optional, private
-        Chemical structure data from the SDF file stored as a string ""
+        Chemical structure test_data from the SDF file stored as a string ""
     """
 
     compound_name: Optional[str] = Field(None, description="Name of compound")
 
     provenance: LigandProvenance = Field(
         ...,
-        description="Identifiers for the input state of the ligand used to ensure the sdf data is correct.",
+        description="Identifiers for the input state of the ligand used to ensure the sdf test_data is correct.",
         allow_mutation=False,
     )
 
@@ -101,7 +101,7 @@ class Ligand(DataModelAbstractBase):
 
     data: str = Field(
         ...,
-        description="SDF file stored as a string to hold internal data state",
+        description="SDF file stored as a string to hold internal test_data state",
         repr=False,
     )
 
@@ -178,7 +178,7 @@ class Ligand(DataModelAbstractBase):
                 atom = rdkit_mol.GetAtomWithIdx(i)
                 atom.SetDoubleProp("PartialCharge", float(charge))
 
-        # set the SD data on the rdkit molecule
+        # set the SD test_data on the rdkit molecule
         _set_SD_data(rdkit_mol, data)
         return rdkit_mol
 
@@ -203,7 +203,7 @@ class Ligand(DataModelAbstractBase):
         Chem.Kekulize(rdmol)
         # assign the 3d stereochemistry
         Chem.AssignStereochemistryFrom3D(rdmol)
-        kwargs.pop("data", None)
+        kwargs.pop("test_data", None)
         sd_tags = rdmol.GetPropsAsDict()
 
         for key, value in sd_tags.items():
@@ -231,7 +231,7 @@ class Ligand(DataModelAbstractBase):
 
         kwargs["tags"] = tags
 
-        # clean the sdf data for the internal model
+        # clean the sdf test_data for the internal model
         sdf_str = rdkit_mol_to_sdf_str(_clear_SD_data(rdmol))
         # create the internal LigandProvenance model
         if "provenance" not in kwargs:
@@ -270,7 +270,7 @@ class Ligand(DataModelAbstractBase):
         """
         Create a Ligand from a SMILES string
         """
-        kwargs.pop("data", None)
+        kwargs.pop("test_data", None)
         rdmol = rdkit_mol_from_smiles(smiles)
         return cls.from_rdkit(rdmol, **kwargs)
 
@@ -319,31 +319,13 @@ class Ligand(DataModelAbstractBase):
         return rdkit_mol_to_inchi_key(mol=mol, fixed_hydrogens=True)
 
     @classmethod
-    def from_mol2(
-        cls,
-        mol2_file: Union[str, Path],
-        **kwargs,
-    ) -> "Ligand":
-        """
-        Read in a ligand from an MOL2 file extracting all possible SD data into internal fields.
-
-        Parameters
-        ----------
-        mol2_file : Union[str, Path]
-            Path to the MOL2 file
-        """
-
-        rdmol = Chem.MolFromMol2File(mol2_file)
-        return cls.from_rdkit(rdmol, **kwargs)
-
-    @classmethod
     def from_sdf(
         cls,
         sdf_file: Union[str, Path],
         **kwargs,
     ) -> "Ligand":
         """
-        Read in a ligand from an SDF file extracting all possible SD data into internal fields.
+        Read in a ligand from an SDF file extracting all possible SD test_data into internal fields.
 
         Parameters
         ----------
@@ -358,7 +340,7 @@ class Ligand(DataModelAbstractBase):
         """
         Create a Ligand from an SDF string
         """
-        kwargs.pop("data", None)
+        kwargs.pop("test_data", None)
         rdmol = sdf_str_to_rdkit_mol(sdf_str)
         return cls.from_rdkit(rdmol, **kwargs)
 
@@ -382,21 +364,15 @@ class Ligand(DataModelAbstractBase):
 
     def to_sdf_str(self) -> str:
         """
-        Set the SD data for a ligand to a string representation of the data
+        Set the SD test_data for a ligand to a string representation of the test_data
         that can be written out to an SDF file
         """
         mol = self.to_rdkit()
         return rdkit_mol_to_sdf_str(mol)
 
-    def print_SD_data(self) -> None:
-        """
-        Print the SD data for the ligand
-        """
-        print(self.tags)
-
     def clear_SD_data(self) -> None:
         """
-        Clear the SD data for the ligand
+        Clear the SD test_data for the ligand
         """
         self.tags = {}
 

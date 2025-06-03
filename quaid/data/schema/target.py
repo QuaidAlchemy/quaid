@@ -70,13 +70,13 @@ class Target(DataModelAbstractBase):
         Create a Target from a PDB file.
         """
 
-        kwargs.pop("data", None)
-        # directly read in data
+        kwargs.pop("test_data", None)
+        # directly read in test_data
         target_mol = ProteinComponent.from_pdb_file(pdb_file)
         return cls(data=target_mol.to_json())
 
     def to_pdb(self, filename: Union[str, Path]) -> None:
-        # directly write out data
+        # directly write out test_data
         target_mol = ProteinComponent.from_json(content=self.data)
         target_mol.to_pdb_file(filename)
 
@@ -84,7 +84,7 @@ class Target(DataModelAbstractBase):
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, Target):
             return NotImplemented
-        # check if the data is the same
+        # check if the test_data is the same
         # but exclude the MASTER record as this is not always in the SAME PLACE
         # for some strange reason
         return check_strings_for_equality_with_exclusion(

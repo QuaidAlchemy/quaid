@@ -178,7 +178,7 @@ class OpenEyeConstrainedPoseGenerator(_BasicConstrainedPoseGenerator):
             core_fragment=core_fragment, use_mcs=use_mcs
         )
 
-        # Get SD data because the omega code will silently move it to the high level
+        # Get SD test_data because the omega code will silently move it to the high level
         # and that is inconsistent with what we do elsewhere
         sd_data = get_SD_data(target_ligand)
 
@@ -189,7 +189,7 @@ class OpenEyeConstrainedPoseGenerator(_BasicConstrainedPoseGenerator):
         oechem.OESuppressHydrogens(target_ligand)
         oechem.OEAddExplicitHydrogens(target_ligand)
 
-        # add SD data back
+        # add SD test_data back
         set_SD_data(target_ligand, sd_data)
 
         if (target_ligand.GetDimension() != 3) or (

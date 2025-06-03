@@ -101,7 +101,7 @@ class SpecialHelpOrder(click.Group):
 
 
 def report_alchemize_clusters(alchemical_clusters, outsiders):
-    """does some reporting alchemical cluster and outsider composition for asap-alchemy.prep.alchemize().
+    """does some reporting alchemical cluster and outsider composition for asap-test_alchemy.prep.alchemize().
     Returns dicts that report {number-of-compounds-in-cluster : number-of-clusters-of-this-size, ..} for
     both alchemical clusters and outsider clusters. Also returns the total number of compounds in
     alchemical clusters."""

@@ -164,7 +164,7 @@ def load_openeye_smi(smi_fn: Union[str, Path]) -> list[oechem.OEGraphMol]:
     Returns
     -------
     list[oechem.OEGraphMol]
-        A list of OpenEye OEGraphMol objects corresponding to the data from the SMI file.
+        A list of OpenEye OEGraphMol objects corresponding to the test_data from the SMI file.
     Raises
     ------
     FileNotFoundError
@@ -288,7 +288,7 @@ def load_openeye_mol2(mol2_fn: Union[str, Path]) -> oechem.OEMol:
     Returns
     -------
     oechem.OEMol
-        An OpenEye OEMol object containing the molecule data from the MOL2 file.
+        An OpenEye OEMol object containing the molecule test_data from the MOL2 file.
 
     Raises
     ------
@@ -334,7 +334,7 @@ def load_openeye_sdf(sdf_fn: Union[str, Path]) -> oechem.OEMol:
     Returns
     -------
     oechem.OEMol
-        An OpenEye OEMol object containing the molecule data from the SDF file.
+        An OpenEye OEMol object containing the molecule test_data from the SDF file.
 
     Raises
     ------
@@ -640,25 +640,25 @@ def openeye_copy_pdb_data(
     source: oechem.OEGraphMol, destination: oechem.OEGraphMol, tag: str
 ) -> None:
     """
-    Copy over the PDB data from one object to another. Tag examples include "SEQRES"
+    Copy over the PDB test_data from one object to another. Tag examples include "SEQRES"
 
     Parameters
     ----------
     source: oechem.OEGraphMol
-        Source molecule to copy the data from
+        Source molecule to copy the test_data from
     destination: oechem.OEGraphMol
-        Destination molecule to copy the data
+        Destination molecule to copy the test_data
     tag: str
-        Tag identifier for the data/metadata.
+        Tag identifier for the test_data/metadata.
 
     Returns
     -------
 
     """
-    # first, delete data with that tag
+    # first, delete test_data with that tag
     oechem.OEDeletePDBData(destination, tag)
 
-    # now, add over all the data with the tag
+    # now, add over all the test_data with the tag
     for data_pair in oechem.OEGetPDBDataPairs(source):
         if data_pair.GetTag() == tag:
             oechem.OEAddPDBData(destination, data_pair)
@@ -838,7 +838,7 @@ def oemol_to_inchikey(mol: oechem.OEMol, fixed_hydrogens: bool = False) -> str:
 
 def _set_SD_data(mol: oechem.OEMolBase, data: dict[str, str]) -> oechem.OEMolBase:
     """
-    Set SD data on an OpenEye OEMolBase object.
+    Set SD test_data on an OpenEye OEMolBase object.
     Since this function works on OEMol, OEGraphMol, OEConfBase objects, it is worth repurposing.
     But it is not recommended to use this function directly for multi-conformer molecules.
 
@@ -850,7 +850,7 @@ def _set_SD_data(mol: oechem.OEMolBase, data: dict[str, str]) -> oechem.OEMolBas
     Returns
     -------
     oechem.OEMolBase
-        OpenEye OEMolBase with SD data set
+        OpenEye OEMolBase with SD test_data set
     """
     for key, value in data.items():
         oechem.OESetSDData(mol, key, str(value))
@@ -859,9 +859,9 @@ def _set_SD_data(mol: oechem.OEMolBase, data: dict[str, str]) -> oechem.OEMolBas
 
 def set_SD_data(mol: oechem.OEMol, data: dict[str, str | list]) -> oechem.OEMol:
     """
-    Set the SD data on an OpenEye OEMol, overwriting any existing data with the same tag
-    If a str or a single-length list is passed as the values of the dictionary, the data will be set to all conformers.
-    If a list is provided, the data will be set to the conformers in the order provided.
+    Set the SD test_data on an OpenEye OEMol, overwriting any existing test_data with the same tag
+    If a str or a single-length list is passed as the values of the dictionary, the test_data will be set to all conformers.
+    If a list is provided, the test_data will be set to the conformers in the order provided.
     If the list is not the same length as the number of conformers, an error will be raised.
 
     Parameters
@@ -870,20 +870,20 @@ def set_SD_data(mol: oechem.OEMol, data: dict[str, str | list]) -> oechem.OEMol:
         OpenEye OEMol
 
     data: dict[str, str | list]
-        Dictionary of SD data to set.
+        Dictionary of SD test_data to set.
 
 
     Returns
     -------
     oechem.OEMol
-        OpenEye OEMol with SD data set
+        OpenEye OEMol with SD test_data set
     """
     from quaid.data.util.data_conversion import get_first_value_of_dict_of_lists
 
     # convert to dict of lists first
     data = {k: v if isinstance(v, list) else [v] for k, v in data.items()}
 
-    # If the object is an OEMol, we will set the SD data to all the conformers
+    # If the object is an OEMol, we will set the SD test_data to all the conformers
     if isinstance(mol, oechem.OEMol):
         for key, value_list in data.items():
             # if list is len 1, generate a list of len N, where N is the number of conformers
@@ -892,7 +892,7 @@ def set_SD_data(mol: oechem.OEMol, data: dict[str, str | list]) -> oechem.OEMol:
 
             if not len(value_list) == mol.NumConfs():
                 raise ValueError(
-                    f"Length of data for tag '{key}' does not match number of conformers ({mol.NumConfs()}). "
+                    f"Length of test_data for tag '{key}' does not match number of conformers ({mol.NumConfs()}). "
                     f"Expected {mol.NumConfs()} but got {len(value_list)} elements."
                 )
             for i, conf in enumerate(mol.GetConfs()):
@@ -909,7 +909,7 @@ def set_SD_data(mol: oechem.OEMol, data: dict[str, str | list]) -> oechem.OEMol:
 
 def _get_SD_data(mol: oechem.OEMolBase) -> dict[str, str]:
     """
-    Get SD data from an OpenEye OEMolBase object.
+    Get SD test_data from an OpenEye OEMolBase object.
     Since this function works on OEMol, OEGraphMol, OEConfBase objects, it is worth repurposing.
     But it is not recommended to use this function directly for multi-conformer molecules.
 
@@ -921,14 +921,14 @@ def _get_SD_data(mol: oechem.OEMolBase) -> dict[str, str]:
     Returns
     -------
     Dict[str, str]
-        Dictionary of SD data
+        Dictionary of SD test_data
     """
     return {dp.GetTag(): dp.GetValue() for dp in oechem.OEGetSDDataPairs(mol)}
 
 
 def get_SD_data(mol: oechem.OEMolBase) -> dict[str, list]:
     """
-    Get all SD data on an OpenEye OEMol, OEGraphMol, or OEConfBase object.
+    Get all SD test_data on an OpenEye OEMol, OEGraphMol, or OEConfBase object.
     If multiple conformers are found, the SD tags from the conformers will be used, and any properties at the highest
     level will be ignored.
 
@@ -940,7 +940,7 @@ def get_SD_data(mol: oechem.OEMolBase) -> dict[str, list]:
     Returns
     -------
     dict[str, list]
-        Dictionary of SD data
+        Dictionary of SD test_data
 
     Raises
     ------
@@ -953,16 +953,16 @@ def get_SD_data(mol: oechem.OEMolBase) -> dict[str, list]:
     )
 
     # If the object is an OEMol, we have to pull from the conformers, because even if there is only one conformer
-    # the data is stored at the conformer level if you generate an oemol from an sdf file
-    # However, if you've manually fiddled with the tags, the data might be stored at the molecule level.
-    # In order to resolve this, if there is data at the high level that is not repeated at the conformer level,
+    # the test_data is stored at the conformer level if you generate an oemol from an sdf file
+    # However, if you've manually fiddled with the tags, the test_data might be stored at the molecule level.
+    # In order to resolve this, if there is test_data at the high level that is not repeated at the conformer level,
     # we'll add to all the conformers and return that dict of lists.
 
     if isinstance(mol, oechem.OEMol):
-        # Get the data from the molecule
+        # Get the test_data from the molecule
         molecule_tags = _get_SD_data(mol)
 
-        # get the data from the conformers
+        # get the test_data from the conformers
         conformer_tags = get_dict_of_lists_from_list_of_dicts(
             [_get_SD_data(conf) for conf in mol.GetConfs()]
         )
@@ -982,7 +982,7 @@ def get_SD_data(mol: oechem.OEMolBase) -> dict[str, list]:
 
 def _get_SD_data_to_object(mol: oechem.OEMol) -> dict[str, Any]:
     """
-    Get all SD data on an OpenEye OEMol, converting to Python objects
+    Get all SD test_data on an OpenEye OEMol, converting to Python objects
 
     Parameters
     ----------
@@ -992,7 +992,7 @@ def _get_SD_data_to_object(mol: oechem.OEMol) -> dict[str, Any]:
     Returns
     -------
     Dict[str, Any]
-        Dictionary of SD data
+        Dictionary of SD test_data
     """
     import ast
 
@@ -1003,15 +1003,15 @@ def _get_SD_data_to_object(mol: oechem.OEMol) -> dict[str, Any]:
 
 
 def print_SD_data(mol: oechem.OEMol) -> None:
-    print("SD data of", mol.GetTitle())
-    # loop over SD data
+    print("SD test_data of", mol.GetTitle())
+    # loop over SD test_data
     for dp in oechem.OEGetSDDataPairs(mol):
         print(dp.GetTag(), ":", dp.GetValue())
 
 
 def clear_SD_data(mol: oechem.OEMolBase) -> oechem.OEMol:
     """
-    Clear all SD data on an OpenEye OEMol
+    Clear all SD test_data on an OpenEye OEMol
 
     Parameters
     ----------
@@ -1021,7 +1021,7 @@ def clear_SD_data(mol: oechem.OEMolBase) -> oechem.OEMol:
     Returns
     -------
     oechem.OEMol
-        OpenEye OEMol with SD data cleared
+        OpenEye OEMol with SD test_data cleared
     """
     oechem.OEClearSDData(mol)
 

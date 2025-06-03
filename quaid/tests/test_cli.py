@@ -82,8 +82,8 @@ def test_alchemy_plan_from_raw(tmpdir, tyk2_protein, tyk2_ligands):
 
 
 def test_alchemy_plan_from_alchemy_dataset(tmpdir):
-    """Try and run the alchemy planning method from an alchemy dataset"""
-    # grab a pre computed alchemy dataset
+    """Try and run the test_alchemy planning method from an test_alchemy dataset"""
+    # grab a pre computed test_alchemy dataset
     alchemy_data = fetch_test_file("prepared_alchemy_dataset.json")
 
     runner = CliRunner()
@@ -113,7 +113,7 @@ def test_alchemy_plan_missing():
         )
 
     assert (
-        "Please provide either an AlchemyDataSet created with `asap-alchemy prep run` or ligand and receptor input files."
+        "Please provide either an AlchemyDataSet created with `asap-test_alchemy prep run` or ligand and receptor input files."
         == str(error.value)
     )
 
@@ -200,7 +200,7 @@ def test_plan_from_graphml(p38_graphml, p38_protein, p38_ligand_names, tmpdir):
 
 
 def test_alchemy_prep_create(tmpdir):
-    """Test creating the alchemy prep workflow"""
+    """Test creating the test_alchemy prep workflow"""
 
     runner = CliRunner()
 
@@ -217,7 +217,7 @@ def test_alchemy_prep_create(tmpdir):
 def test_alchemy_prep_run_with_fails_and_charges(
     tmpdir, mac1_complex, openeye_charged_prep_workflow
 ):
-    """Test running the alchemy prep workflow on a set of mac1 ligands and that failures are captured"""
+    """Test running the test_alchemy prep workflow on a set of mac1 ligands and that failures are captured"""
 
     # locate the ligands input file
     ligand_file = fetch_test_file("constrained_conformer/mac1_ligands.smi")
@@ -294,7 +294,7 @@ def test_alchemy_prep_run_with_fails_and_charges(
 
 
 def test_alchemy_prep_run_all_pass(tmpdir, mac1_complex, openeye_prep_workflow):
-    """Test running the alchemy prep workflow and make sure all ligands pass when expected."""
+    """Test running the test_alchemy prep workflow and make sure all ligands pass when expected."""
 
     # locate the ligands input file
     ligand_file = fetch_test_file("constrained_conformer/mac1_ligands.smi")
@@ -363,7 +363,7 @@ def test_alchemy_prep_run_all_pass(tmpdir, mac1_complex, openeye_prep_workflow):
 
 
 def test_alchemy_prep_receptor_pick(tmpdir, mac1_complex, openeye_prep_workflow):
-    """Test running the alchemy prep workflow and letting it select the receptor."""
+    """Test running the test_alchemy prep workflow and letting it select the receptor."""
 
     # locate the ligands input file
     ligand_file = fetch_test_file("constrained_conformer/mac1_ligands.smi")
@@ -432,7 +432,7 @@ def test_alchemy_prep_receptor_pick(tmpdir, mac1_complex, openeye_prep_workflow)
 def test_alchemy_prep_run_from_postera(
     tmpdir, mac1_complex, openeye_prep_workflow, monkeypatch
 ):
-    """Test running the alchemy prep workflow on a set of mac1 ligands downloaded from postera."""
+    """Test running the test_alchemy prep workflow on a set of mac1 ligands downloaded from postera."""
     from quaid.alchemy.cli import utils
     from quaid.data.readers.molfile import MolFileFactory
     from quaid.data.schema.ligand import Ligand
@@ -483,7 +483,7 @@ def test_alchemy_status_all(monkeypatch):
     network_key = ScopedKey(
         gufe_key="fakenetwork",
         org="asap",
-        campaign="alchemy",
+        campaign="test_alchemy",
         project="testing",
     )
     network_status = {"complete": 1, "running": 2, "waiting": 3}
@@ -529,7 +529,7 @@ def test_alchemy_status_all(monkeypatch):
         in result.stdout
     )
     assert (
-        "│ fakenetwork-asap-alchemy-testing │ 1   │ 2  │ 3   │ 0  │ 0   │ 0  │ 5   │ 1  │"
+        "│ fakenetwork-asap-test_alchemy-testing │ 1   │ 2  │ 3   │ 0  │ 0   │ 0  │ 5   │ 1  │"
         in result.stdout
     )
 
@@ -556,7 +556,7 @@ def test_alchemy_stop(monkeypatch):
     network_key = ScopedKey(
         gufe_key="fakenetwork-12345",
         org="asap",
-        campaign="alchemy",
+        campaign="test_alchemy",
         project="testing",
     )
 
@@ -578,7 +578,7 @@ def test_alchemy_stop(monkeypatch):
     result = runner.invoke(alchemy, ["stop", "-nk", network_key])
     assert click_success(result)
     assert (
-        "Canceled 4 actioned tasks for network fakenetwork-12345-asap-alchemy-testing"
+        "Canceled 4 actioned tasks for network fakenetwork-12345-asap-test_alchemy-testing"
         in result.stdout
     )
 
@@ -593,7 +593,7 @@ def test_alchemy_stop_hard(monkeypatch):
     network_key = ScopedKey(
         gufe_key="fakenetwork-12345",
         org="asap",
-        campaign="alchemy",
+        campaign="test_alchemy",
         project="testing",
     )
 
@@ -613,7 +613,7 @@ def test_alchemy_stop_hard(monkeypatch):
     result = runner.invoke(alchemy, ["stop", "-nk", network_key, "--hard"])
     assert click_success(result)
     assert (
-        "Deleted 4 actioned tasks for network fakenetwork-12345-asap-alchemy-testing"
+        "Deleted 4 actioned tasks for network fakenetwork-12345-asap-test_alchemy-testing"
         in result.stdout
     )
 
@@ -643,7 +643,7 @@ def test_submit_bad_campaign(tyk2_fec_network, tmpdir):
     os.getenv("RUNNER_OS") == "macOS", reason="Flake on MacOS for some reason"
 )
 def test_alchemy_predict_no_experimental_data(tyk2_result_network, tmpdir):
-    """Test predicting the absolute and relative free energies with no experimental data, interactive reports should
+    """Test predicting the absolute and relative free energies with no experimental test_data, interactive reports should
     not be generated in this mode.
     We also test that a warning is printed in the terminal as the target is missing so the results can not be uploaded
     to postera.
@@ -705,7 +705,7 @@ def test_alchemy_predict_experimental_data(
     tyk2_result_network, tmpdir, tyk2_reference_data
 ):
     """
-    Test predicting the absolute and relative free energies with experimental data, the predictions should be shifted
+    Test predicting the absolute and relative free energies with experimental test_data, the predictions should be shifted
     by the experimental mean to get them in the correct energy range and the interactive reports should be generated.
     """
 
@@ -739,7 +739,7 @@ def test_alchemy_predict_experimental_data(
         assert mol_data["uncertainty (kcal/mol) (FECS)"] == pytest.approx(
             0.0757, abs=1e-4
         )
-        # make sure the experimental data has been added
+        # make sure the experimental test_data has been added
         assert mol_data["DG (kcal/mol) (EXPT)"] == pytest.approx(-9.5739, abs=1e-4)
         # make sure the prediction error has been calculated
         assert mol_data["prediction error (kcal/mol)"] == pytest.approx(
@@ -764,7 +764,7 @@ def test_alchemy_predict_experimental_data(
         assert relative_mol_data["uncertainty (kcal/mol) (FECS)"] == pytest.approx(
             0.1497, abs=1e-4
         )
-        # make sure the experimental data has been added
+        # make sure the experimental test_data has been added
         assert relative_mol_data["DDG (kcal/mol) (EXPT)"] == pytest.approx(
             -0.1542, abs=1e-4
         )
@@ -780,10 +780,10 @@ def test_alchemy_predict_ccd_data(
     tmpdir, tyk2_result_network, tyk2_reference_data, monkeypatch
 ):
     """
-    Make sure we can do a prediction with experimental data when using the CDD api interface.
+    Make sure we can do a prediction with experimental test_data when using the CDD api interface.
 
     Notes:
-        The CDD api will be mocked, so we are testing the ability to match the data up correctly.
+        The CDD api will be mocked, so we are testing the ability to match the test_data up correctly.
         We expected slightly different values here due to rounding of the pIC50 via this pathway.
     """
 
@@ -795,7 +795,7 @@ def test_alchemy_predict_ccd_data(
     # mock the cdd_api
     def get_tyk2_data(*args, **kwargs):
         data = pd.read_csv(tyk2_reference_data, index_col=0)
-        # format the data and add expected columns
+        # format the test_data and add expected columns
         ic50_lower, ic50_upper, curve, inchi, inchi_key = [], [], [], [], []
         data.rename(
             columns={
@@ -806,7 +806,7 @@ def test_alchemy_predict_ccd_data(
         )
         data.drop(columns=["IC50_GMean (µM) Standard Deviation (×/÷)"], inplace=True)
         for _, row in data.iterrows():
-            # calculate the required data
+            # calculate the required test_data
             rdkit_mol = Chem.MolFromSmiles(row["Smiles"])
             inchi.append(Chem.MolToInchi(rdkit_mol))
             inchi_key.append(Chem.MolToInchiKey(rdkit_mol))
@@ -854,7 +854,7 @@ def test_alchemy_predict_ccd_data(
         assert mol_data["uncertainty (kcal/mol) (FECS)"] == pytest.approx(
             0.0757, abs=1e-4
         )
-        # make sure the experimental data has been added
+        # make sure the experimental test_data has been added
         assert mol_data["DG (kcal/mol) (EXPT)"] == pytest.approx(-9.5721, abs=1e-4)
         # make sure the prediction error has been calculated
         assert mol_data["prediction error (kcal/mol)"] == pytest.approx(
@@ -881,7 +881,7 @@ def test_alchemy_predict_ccd_data(
         assert relative_mol_data["uncertainty (kcal/mol) (FECS)"] == pytest.approx(
             0.1497, abs=1e-4
         )
-        # make sure the experimental data has been added
+        # make sure the experimental test_data has been added
         assert relative_mol_data["DDG (kcal/mol) (EXPT)"] == pytest.approx(
             -0.1499, abs=1e-4
         )
@@ -897,7 +897,7 @@ def test_predict_missing_all_exp_data(
     tyk2_reference_data, tyk2_result_network, tmpdir, monkeypatch
 ):
     """
-    Test making a prediction when experimental data is provided but does not overlap with the ligands, this should
+    Test making a prediction when experimental test_data is provided but does not overlap with the ligands, this should
     stop the generation of the interactive reports.
     """
     # mock the env variables
@@ -1019,7 +1019,7 @@ def test_prioritize_weight_not_set(monkeypatch):
     network_key = ScopedKey(
         gufe_key="fakenetwork-12345",
         org="asap",
-        campaign="alchemy",
+        campaign="test_alchemy",
         project="testing",
     )
 
@@ -1258,7 +1258,7 @@ def test_bespoke_gather(tyk2_fec_network, monkeypatch, tmpdir):
     )
 
     def get_optimization(self, optimization_id):
-        """Return some mock bespokefit data"""
+        """Return some mock bespokefit test_data"""
         return BespokeExecutorOutput(
             smiles="CC",
             stages=[
@@ -1354,7 +1354,7 @@ def test_bespoke_gather_partial(tyk2_fec_network, monkeypatch, tmpdir):
     )
 
     def get_optimization(self, optimization_id):
-        """Return some mock bespokefit data"""
+        """Return some mock bespokefit test_data"""
         return BespokeExecutorOutput(
             smiles="CC",
             stages=[
@@ -1407,7 +1407,7 @@ def test_bespoke_status(monkeypatch, tyk2_fec_network, tmpdir):
     monkeypatch.setattr(BespokeExecutorOutput, "status", "success")
 
     def get_optimization(self, optimization_id):
-        "Return some mock data with a fake status"
+        "Return some mock test_data with a fake status"
         return BespokeExecutorOutput(
             smiles="CC",
             stages=[

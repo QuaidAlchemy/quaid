@@ -190,7 +190,7 @@ def gather(network: str, allow_missing: bool):
     if all(bespoke_status):
         print_message(console=console, message="No bespoke optimizations found.")
 
-    # workout if we have missing data
+    # workout if we have missing test_data
     elif not allow_missing and any(
         [ligand.bespoke_parameters is None for ligand in fec_network.network.ligands]
     ):

@@ -33,7 +33,7 @@ dependencies:
   - plotmol
   - scipy >=1.13.1
 
-  # data
+  # test_data
   - typing-extensions
 
   # simulation

@@ -296,7 +296,7 @@ class AlchemyPrepWorkflow(_AlchemyPrepBase):
         ligands ready for ASAP-Alchemy.
 
         Notes:
-            Ligands with experimental data can be supplied via `reference_ligands`, poses will be generated
+            Ligands with experimental test_data can be supplied via `reference_ligands`, poses will be generated
             until `self.n_references` have been successfully added. The ligands will be sorted by their MCS overlap with
             the crystal reference ligand to ensure a pose can be generated.
 
@@ -306,7 +306,7 @@ class AlchemyPrepWorkflow(_AlchemyPrepBase):
             reference_complex: The prepared target crystal structure with a reference ligand which the poses should be
                 constrained to.
             processors: The number of parallel processors that should be used to run the workflow.
-            reference_ligands: The list of reference ligands with experimental data which we should also generate
+            reference_ligands: The list of reference ligands with experimental test_data which we should also generate
                 poses for if `self.n_references` > 0.
 
         Returns:

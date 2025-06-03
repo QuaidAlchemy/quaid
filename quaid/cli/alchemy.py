@@ -66,7 +66,7 @@ def create(filename: str):
 )
 @click.option(
     "-ad",
-    "--alchemy-dataset",
+    "--test_alchemy-dataset",
     type=click.Path(resolve_path=True, exists=True, file_okay=True, dir_okay=False),
     help="The JSON file containing an AlchemyDataset created with Quaid-Alchemy prep run. This defines the ligands and the receptor.",
 )
@@ -139,7 +139,7 @@ def plan(
     # nothing specified
     if ligands is None and graphml is None and alchemy_dataset is None:
         raise RuntimeError(
-            "Please provide either an AlchemyDataSet created with `asap-alchemy prep run` or ligand and receptor input files."
+            "Please provide either an AlchemyDataSet created with `asap-test_alchemy prep run` or ligand and receptor input files."
         )
 
     click.echo("Loading FreeEnergyCalculationFactory ...")
@@ -178,7 +178,7 @@ def plan(
         else:
             # load from separate files
             click.echo(f"Loading Ligands from {ligands}")
-            # parse all required data/ assume sdf currently
+            # parse all required test_data/ assume sdf currently
             input_ligands = MolFileFactory(filename=ligands).load()
 
         click.echo(f"Loading protein from {receptor}")
@@ -224,7 +224,7 @@ def plan(
         graphml=graphml,
     )
     click.echo(f"Writing results to {name}")
-    # output the data to a folder named after the dataset
+    # output the test_data to a folder named after the dataset
     output_folder = pathlib.Path(name)
     output_folder.mkdir(parents=True, exist_ok=True)
 
@@ -340,7 +340,7 @@ def submit(
     total_tasks = len(task_ids)
     print_message(
         console=console,
-        message=f"{total_tasks - missing_tasks}/{total_tasks} created. Status can be checked using `asap-alchemy status`",
+        message=f"{total_tasks - missing_tasks}/{total_tasks} created. Status can be checked using `asap-test_alchemy status`",
     )
 
 
@@ -692,7 +692,7 @@ def restart(network: str, verbose: bool, tasks):
     "-nk",
     "--network-key",
     type=click.STRING,
-    help="The network key of the network to be stopped. This can be found by running e.g. `asap-alchemy status -a`.",
+    help="The network key of the network to be stopped. This can be found by running e.g. `asap-test_alchemy status -a`.",
     required=True,
 )
 @click.option(
@@ -700,7 +700,7 @@ def restart(network: str, verbose: bool, tasks):
     "--weight",
     type=click.FloatRange(min=0.0, max=1.0),
     help="The weight that should be assigned to the network. Network weights can be found by running"
-    + " `asap-alchemy status -a`.",
+    + " `asap-test_alchemy status -a`.",
     required=True,
 )
 def prioritize(network_key: str, weight: float):
@@ -747,7 +747,7 @@ def prioritize(network_key: str, weight: float):
     "-nk",
     "--network-key",
     type=click.STRING,
-    help="The network key of the network to be stopped. This can be found by running e.g. `asap-alchemy status -a`.",
+    help="The network key of the network to be stopped. This can be found by running e.g. `asap-test_alchemy status -a`.",
     required=True,
 )
 @click.option(
@@ -799,7 +799,7 @@ def stop(network_key: str, hard: bool = False):
 
 @alchemy.command(
     help_priority=8,
-    short_help="Predict relative and absolute free energies for the set of ligands, using any provided experimental data to shift the results to the relevant energy range.",
+    short_help="Predict relative and absolute free energies for the set of ligands, using any provided experimental test_data to shift the results to the relevant energy range.",
 )
 @click.option(
     "-n",
@@ -813,13 +813,13 @@ def stop(network_key: str, hard: bool = False):
     "-rd",
     "--reference-dataset",
     type=click.Path(resolve_path=True, readable=True, file_okay=True, dir_okay=False),
-    help="The name of a csv file containing reference experimental data to be used in the predictions.",
+    help="The name of a csv file containing reference experimental test_data to be used in the predictions.",
 )
 @click.option(
     "-ru",
     "--reference-units",
     type=click.Choice(["pIC50", "IC50"]),
-    help="The units of the reference experimental data provided in the csv or saved as an SDTag on the ligand.",
+    help="The units of the reference experimental test_data provided in the csv or saved as an SDTag on the ligand.",
     default="pIC50",
     show_default=True,
 )
@@ -869,7 +869,7 @@ def predict(
     write_top_n_poses: Optional[int] = 1000,
 ):
     """
-    Predict relative and absolute free energies for the set of ligands, using any provided experimental data to shift the
+    Predict relative and absolute free energies for the set of ligands, using any provided experimental test_data to shift the
     results to the relevant energy range.
     """
     import numpy as np
@@ -976,7 +976,7 @@ def predict(
     # create interactive reports, they will work out if a plot should be included
     report_status = console.status("Generating interactive reports")
     report_status.start()
-    # we can only make these reports currently with experimental data
+    # we can only make these reports currently with experimental test_data
     # TODO update once we have the per replicate estimate and error
     absolute_layout = create_absolute_report(dataframe=absolute_df)
     absolute_path = f"predictions-absolute-{result_network.dataset_name}.html"

@@ -24,7 +24,7 @@ panel.extension()
 def get_magnitude(quantity: unit.Quantity) -> float:
     """
     Convenience method to return the magnitude of an OpenFF unit quantity.
-    This is useful in cases where data needs to be handled by libraries that
+    This is useful in cases where test_data needs to be handled by libraries that
     are not able to parse pint-like quantities.
 
     Args:
@@ -224,16 +224,16 @@ def extract_experimental_data(
     reference_csv: str, assay_units: Literal["pIC50", "IC50"]
 ) -> pd.DataFrame:
     """
-    Extract the experimental data from the given csv file, this assumes the csv has been downloaded from cdd.
-    Where the molecule identifier is under column 'Molecule Name' and the experimental data is pIC50 / IC50
+    Extract the experimental test_data from the given csv file, this assumes the csv has been downloaded from cdd.
+    Where the molecule identifier is under column 'Molecule Name' and the experimental test_data is pIC50 / IC50
     TODO make more general
 
     Args:
-        reference_csv: The name of the csv file with the experimental data
-        assay_units: The assay units of 'pIC50' or 'IC50' that the experimental data is given in.
+        reference_csv: The name of the csv file with the experimental test_data
+        assay_units: The assay units of 'pIC50' or 'IC50' that the experimental test_data is given in.
 
     Returns:
-        A pandas dataframe of the reference data with added columns containing the calculated binding affinity and
+        A pandas dataframe of the reference test_data with added columns containing the calculated binding affinity and
         its associated uncertainty converted to Gibbs free energy in kcal / mol.
     """
     assay_tags = {
@@ -242,7 +242,7 @@ def extract_experimental_data(
     }
     exp_data = pd.read_csv(reference_csv).fillna(0)
 
-    # work out the columns for the ref data and the uncertainty
+    # work out the columns for the ref test_data and the uncertainty
     assay_endpoint_tag, assay_endpoint_confidence_tag = None, None
     for col in exp_data.columns:
         if col.endswith(assay_tags[assay_units][0]):
@@ -289,10 +289,10 @@ def _find_ligand_data(
     name: str, inchi_key: str, experimental_data: pd.DataFrame
 ) -> dict:
     """
-    Multi search method which tries to match the name then the inchi key when looking for a molecules experimental data.
+    Multi search method which tries to match the name then the inchi key when looking for a molecules experimental test_data.
 
     Notes:
-        Columns should have names `Molecule Name` and `Inchi Key`, if the molecule can not be found dummy data
+        Columns should have names `Molecule Name` and `Inchi Key`, if the molecule can not be found dummy test_data
         is returned.
         We use InchiKey when matching as this is atom order and cheminformatics toolkit independent.
 
@@ -302,7 +302,7 @@ def _find_ligand_data(
         experimental_data: The experimental dataframe which should be searched for the target molecule
 
     Returns:
-        A dictionary of the data from the dataframe which matches the provided name or inchi key
+        A dictionary of the test_data from the dataframe which matches the provided name or inchi key
     """
 
     ligand_data = experimental_data[experimental_data["Molecule Name"] == name]
@@ -311,7 +311,7 @@ def _find_ligand_data(
     if len(ligand_data) == 1:
         ligand_data = ligand_data.iloc[0]
     else:
-        # dummy data if not found easy to drop later
+        # dummy test_data if not found easy to drop later
         ligand_data = {
             "exp_binding_affinity_kcal_mol": np.nan,
             "exp_binding_affinity_kcal_mol_stderr": np.nan,
@@ -325,10 +325,10 @@ def add_absolute_expt(
     experimental_data: pd.DataFrame,
 ):
     """
-    Edit the dataframe inplace by adding experimental data provided to it.
+    Edit the dataframe inplace by adding experimental test_data provided to it.
 
     Args:
-        dataframe: The dataframe of absolute free energy predictions to add the experimental data to, this should
+        dataframe: The dataframe of absolute free energy predictions to add the experimental test_data to, this should
             contain the name, smiles and inchi key of the molecules.
         experimental_data: A dataframe containing the experimental free energies in units of kcal/mol to add to the
             dataframe.
@@ -352,10 +352,10 @@ def add_relative_expt(
     experimental_data: pd.DataFrame,
 ):
     """
-    Edit the relative dataframe in place by adding experimental data provided to it.
+    Edit the relative dataframe in place by adding experimental test_data provided to it.
 
     Args:
-        dataframe: The dataframe of relative free energy predictions to add the experimental data to.
+        dataframe: The dataframe of relative free energy predictions to add the experimental test_data to.
         experimental_data: A dictionary of experimental free energies in units of kcal/mol to add to the dataframe.
     """
     experimental_col, uncertainty_col = [], []
@@ -397,15 +397,15 @@ def get_data_from_femap(
     reference_dataset: Optional[str] = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Given a `cinnabar` `FEMap` add the experimental reference data and generate and return:
+    Given a `cinnabar` `FEMap` add the experimental reference test_data and generate and return:
     1. a Pandas DataFrame that has all absolute predictions and measurements (DG in kcal/mol) and (pIC50)
     2. a pd DF that has all relative predictions and measurements (DDG in kcal/mol) and PIC50
 
     Args:
         fe_map: The cinnabar FEMap which has all calculated edges present and the absolute estimates.
         ligands: The list of asap ligands which are part of the network.
-        assay_units: The units of the experimental data, which should be extracted from the reference dataset.
-        reference_dataset: The name of the cdd csv file which contains the experimental data.
+        assay_units: The units of the experimental test_data, which should be extracted from the reference dataset.
+        reference_dataset: The name of the cdd csv file which contains the experimental test_data.
 
     Returns:
          An absolute and relative free energy prediction dataframe.
@@ -436,7 +436,7 @@ def get_data_from_femap(
     for df in [absolute_df, relative_df]:
         add_identifiers_to_df(df, ligands)
 
-    # add experimental data if available
+    # add experimental test_data if available
     experimental_data = None
     if reference_dataset is not None:
         experimental_data = extract_experimental_data(
@@ -478,7 +478,7 @@ def draw_mol(smiles: str) -> str:
     drawer.FinishDrawing()
 
     data = base64.b64encode(drawer.GetDrawingText().encode()).decode()
-    return f'<img src="data:image/svg+xml;base64,{data}"></img>'
+    return f'<img src="test_data:image/svg+xml;base64,{data}"></img>'
 
 
 def plotmol_absolute(
@@ -523,7 +523,7 @@ def plotmol_absolute(
         width=800,
         height=800,
     )
-    # create the tooltip data needed for this plot type
+    # create the tooltip test_data needed for this plot type
     tooltip_data = {
         "title": titles,
         "experimental": experimental,
@@ -677,7 +677,7 @@ def plotmol_relative(
     for title_a, title_b in titles:
         titles_a.append(title_a)
         titles_b.append(title_b)
-    # create the tooltip data needed for this plot type
+    # create the tooltip test_data needed for this plot type
     tooltip_data = {
         "titleA": titles_a,
         "titleB": titles_b,
@@ -715,7 +715,7 @@ def add_pic50_columns(dataframe: pd.DataFrame):
 def create_absolute_report(dataframe: pd.DataFrame) -> panel.Column:
     """
     Create a cinnabar style interactive report for the dataframe of absolute free energy predictions, this dataframe
-    should include experimental data already.
+    should include experimental test_data already.
 
     Args:
         dataframe: The dataframe of absolute predictions to construct the report for.
@@ -736,7 +736,7 @@ def create_absolute_report(dataframe: pd.DataFrame) -> panel.Column:
     # create a plotting dataframe which drops rows with nans
     plotting_df = dataframe.dropna(axis=0, inplace=False)
     plotting_df.reset_index(inplace=True)
-    # only make the plot if we have exp data and more than one point
+    # only make the plot if we have exp test_data and more than one point
     if len(plotting_df) > 3 and "DG (kcal/mol) (EXPT)" in plotting_df.columns:
 
         # add pIC50 columns beside DG
@@ -772,7 +772,7 @@ def create_absolute_report(dataframe: pd.DataFrame) -> panel.Column:
                 }
             )
         stats_df = pd.DataFrame(stats_data)
-        # create a format for numerical data in the tables
+        # create a format for numerical test_data in the tables
         stats_format = {col: number_format for col in stats_df.columns}
         stats_format["Statistic"] = "html"
     else:
@@ -799,7 +799,7 @@ def create_absolute_report(dataframe: pd.DataFrame) -> panel.Column:
     # add the table
     layout.append(
         panel.widgets.Tabulator(
-            # use full data frame including nans for table
+            # use full test_data frame including nans for table
             dataframe,
             show_index=False,
             disabled=True,
@@ -821,14 +821,14 @@ def create_absolute_report(dataframe: pd.DataFrame) -> panel.Column:
 def create_relative_report(dataframe: pd.DataFrame) -> panel.Column:
     """
     Create a cinnabar style interactive report for the dataframe of relative free energy predictions, this dataframe
-    should include experimental data already.
+    should include experimental test_data already.
 
     Args:
         dataframe: The dataframe of relative predictions to construct the report for.
 
     Returns:
         A panel column containing an interactive plot and table of the free energy predictions if we have 2 or more exp
-        data points else only a table is created.
+        test_data points else only a table is created.
     """
 
     mols, combined_smiles, titles = [], [], []
@@ -848,7 +848,7 @@ def create_relative_report(dataframe: pd.DataFrame) -> panel.Column:
     add_pic50_columns(plotting_df)
 
     number_format = bokeh.models.widgets.tables.NumberFormatter(format="0.0000")
-    # only plot the graph if we have exp data and more than a single point
+    # only plot the graph if we have exp test_data and more than a single point
     make_plots_stats = (
         len(plotting_df) > 3 and "DDG (kcal/mol) (EXPT)" in plotting_df.columns
     )
@@ -884,7 +884,7 @@ def create_relative_report(dataframe: pd.DataFrame) -> panel.Column:
                 }
             )
         stats_df = pd.DataFrame(stats_data)
-        # create a format for numerical data in the tables
+        # create a format for numerical test_data in the tables
         stats_format = {col: number_format for col in stats_df.columns}
         stats_format["Statistic"] = "html"
 
@@ -969,7 +969,7 @@ def clean_result_network(network, console=None):
     for _, results in deduped_results_dict.items():
         if len(results) > 1:
             # take the arithmetic mean of DG and dDG and add the replaced first result,
-            # all provenance data is constant between these repeats anyway
+            # all provenance test_data is constant between these repeats anyway
             mean_DG = np.mean([result.estimate.magnitude for result in results])
             mean_dDG = np.mean([result.uncertainty.magnitude for result in results])
             result_data = results[0].dict(exclude={"estimate", "uncertainty"})

@@ -21,7 +21,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: ["ubuntu-latest", "macos-latest"]
         python-version: ["3.10", "3.11", "3.12"]
 
     steps:
@@ -37,7 +37,7 @@ jobs:
       # More info on options: https://github.com/marketplace/actions/setup-micromamba
       - uses: mamba-org/setup-micromamba@v1
         with:
-          environment-file: devtools/conda-envs/quaid-${{ matrix.os }}.yml
+          environment-file: devtools/conda-envs/quaid-latest.yml
           environment-name: test
           condarc: |
             channels:
