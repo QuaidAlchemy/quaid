@@ -6,7 +6,7 @@ from typing import Any
 from quaid.data.schema.ligand import Ligand
 from quaid.data.schema.schema_base import DataModelAbstractBase
 from quaid.data.schema.target import Target
-from pydantic import Field
+from pydantic.v1 import Field
 
 logger = logging.getLogger(__name__)
 

@@ -1,11 +1,7 @@
 import pytest
 from quaid.data.schema.ligand import Ligand, StateExpansionTag, ChargeProvenance, BespokeParameters
 from quaid.data.schema.identifiers import BespokeParameter
-
-
-@pytest.fixture(scope="module")
-def ligands(smiles):
-    return [Ligand.from_smiles(s, compound_name="test") for s in smiles]
+from importlib import resources
 
 
 @pytest.fixture(scope="session")
@@ -38,3 +34,21 @@ def roundtrip_ligand(propane_smiles):
     )
     return lig
 
+@pytest.fixture(scope="session")
+def benzene_sdf():
+    with resources.files("quaid.tests.data") as d:
+        return d / "benzene.sdf"
+
+@pytest.fixture(scope="session")
+def tyk2_receptor_pdb():
+    with resources.files("quaid.tests.data") as d:
+        return d / "tyk2_receptor.pdb"
+
+@pytest.fixture(scope="session")
+def benzene(benzene_sdf) -> Ligand:
+    return Ligand.from_sdf(benzene_sdf)
+
+@pytest.fixture(scope="session")
+def tyk2_ligands_sdf():
+    with resources.files("quaid.tests.data") as d:
+        return d / "tyk2_ligands.sdf"

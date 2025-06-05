@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Any, Dict, Optional, Tuple, Union  # noqa: F401
 
 from quaid.data.schema.identifiers import TargetIdentifiers
-from pydantic import Field, root_validator
+from pydantic.v1 import Field, root_validator
 
 from quaid.data.schema.schema_base import (
     DataModelAbstractBase,
@@ -72,13 +72,25 @@ class Target(DataModelAbstractBase):
 
         kwargs.pop("test_data", None)
         # directly read in test_data
+        if isinstance(pdb_file, Path):
+            pdb_file = pdb_file.as_posix()
         target_mol = ProteinComponent.from_pdb_file(pdb_file)
-        return cls(data=target_mol.to_json())
+        return cls(data=target_mol.to_json(), **kwargs)
 
     def to_pdb(self, filename: Union[str, Path]) -> None:
         # directly write out test_data
         target_mol = ProteinComponent.from_json(content=self.data)
         target_mol.to_pdb_file(filename)
+
+    def to_pdb_str(self) ->str:
+        """
+        Convert the target to a PDB string.
+        """
+        import io
+        target_mol = ProteinComponent.from_json(content=self.data)
+        pdb_str = io.StringIO()
+        target_mol.to_pdb_file(pdb_str)
+        return pdb_str.getvalue()
 
 
     def __eq__(self, other: Any) -> bool:
@@ -88,7 +100,7 @@ class Target(DataModelAbstractBase):
         # but exclude the MASTER record as this is not always in the SAME PLACE
         # for some strange reason
         return check_strings_for_equality_with_exclusion(
-            self.data, other.data, "MASTER"
+            self.to_pdb_str(), other.to_pdb_str(), "MASTER"
         )
 
     def __ne__(self, other: Any) -> bool:

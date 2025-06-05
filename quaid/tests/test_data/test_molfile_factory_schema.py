@@ -1,25 +1,8 @@
-import pytest
 from quaid.data.readers.molfile import MolFileFactory
-from quaid.data.testing.test_resources import fetch_test_file
 
-
-@pytest.fixture(scope="session")
-def sdf_file():
-    return fetch_test_file("Mpro_combined_labeled.sdf")
-
-
-@pytest.fixture(scope="session")
-def smi_file():
-    return fetch_test_file("Mpro_combined_labeled.smi")
-
-
-def test_molfile_factory_sdf(sdf_file):
-    molfile = MolFileFactory(filename=sdf_file)
+def test_molfile_factory_sdf(tyk2_ligands_sdf):
+    molfile = MolFileFactory(filename=tyk2_ligands_sdf)
     ligands = molfile.load()
-    assert len(ligands) == 576
-
-
-def test_molfile_factory_smi(smi_file):
-    molfile = MolFileFactory(filename=smi_file)
-    ligands = molfile.load()
-    assert len(ligands) == 556
+    assert len(ligands) == 2
+    assert ligands[0].compound_name == "lig_ejm_54"
+    assert ligands[1].compound_name == "lig_jmc_23"

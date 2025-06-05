@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 class MolFileFactory(BaseModel):
     """
-    Factory for a loading a generic molecule file into a list of Ligand objects.
+    Factory for a loading an sdf molecule file into a list of Ligand objects.
     """
 
     filename: Union[str, Path] = Field(..., description="Path to the molecule file")
