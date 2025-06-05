@@ -57,7 +57,7 @@ class StereoExpander(StateExpanderBase):
 
         enantiomers = []
         for parent_ligand in ligands:
-            # need to clear the SD data otherwise the provenance will break
+            # need to clear the SD test_data otherwise the provenance will break
             oemol = clear_SD_data(parent_ligand.to_oemol())
             for enantiomer in oeomega.OEFlipper(
                 oemol, maxcenters, force_flip, enum_nitrogen, warts
@@ -67,7 +67,7 @@ class StereoExpander(StateExpanderBase):
                     enantiomer
                 )  # a single conformer needs to be built to fully define stereochemistry
                 enantiomer_ligand = Ligand.from_oemol(
-                    enantiomer, **parent_ligand.dict(exclude={"provenance", "data"})
+                    enantiomer, **parent_ligand.dict(exclude={"provenance", "test_data"})
                 )
                 # if the ligand is the parent ie no possible expansions don't tag it
                 if enantiomer_ligand.fixed_inchikey == parent_ligand.fixed_inchikey:

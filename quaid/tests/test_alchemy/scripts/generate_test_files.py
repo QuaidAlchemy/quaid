@@ -1,5 +1,5 @@
-"""Regenerate the test files to keep inline with the new schema only consistent data like the network, ligands and receptor and results are
-transferred all openfe/asap-alchemy schema data is set to the new model defaults.
+"""Regenerate the test files to keep inline with the new schema only consistent test_data like the network, ligands and receptor and results are
+transferred all openfe/asap-test_alchemy schema test_data is set to the new model defaults.
 
 You will need local copies of tyk2_small_network.json and tyk2_result_network.json
 """

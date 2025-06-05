@@ -12,9 +12,9 @@ from quaid.data.operators.state_expanders.stereo_expander import StereoExpander
 from quaid.data.operators.state_expanders.tautomer_expander import (
     TautomerExpander,
 )
-from quaid.data.schema.complex import PreppedComplex
+from quaid.data.schema.complex import Complex
 from quaid.data.schema.ligand import Ligand
-from quaid.docking.pose_generation import (
+from quaid.pose_generation import (
     OpenEyeConstrainedPoseGenerator,
     RDKitConstrainedPoseGenerator,
 )
@@ -77,7 +77,7 @@ class AlchemyDataSet(_AlchemyPrepBase):
     type: Literal["AlchemyDataSet"] = "AlchemyDataSet"
 
     dataset_name: str = Field(..., description="The name of the dataset.")
-    reference_complex: PreppedComplex = Field(
+    reference_complex: Complex = Field(
         ...,
         description="The prepared complex which was used in pose generation including the crystal reference ligand.",
     )
@@ -98,16 +98,16 @@ class AlchemyDataSet(_AlchemyPrepBase):
 
     def save_posed_ligands(self, filename: str):
         """
-        Save the posed ligands to an SDF file using openeye.
+        Save the posed ligands to an SDF file using rdkit.
 
         Parameters
         ----------
         filename: The name of the SDF the ligands should be saved to.
         """
-        from quaid.data.backend.openeye import save_openeye_sdfs
+        from quaid.data.schema.ligand import write_ligands_to_multi_sdf
 
-        oemols = [ligand.to_oemol() for ligand in self.posed_ligands]
-        save_openeye_sdfs(oemols, filename)
+        rdmols = [ligand.to_rdkit() for ligand in self.posed_ligands]
+        write_ligands_to_multi_sdf(sdf_name=filename, ligands=rdmols, overwrite=True)
 
 
 class AlchemyPrepWorkflow(_AlchemyPrepBase):
@@ -161,7 +161,7 @@ class AlchemyPrepWorkflow(_AlchemyPrepBase):
 
     def pose_experimental_molecules(
         self,
-        reference_complex: PreppedComplex,
+        reference_complex: Complex,
         experimental_ligands: list[Ligand],
         processors: int = 1,
     ) -> list[Ligand]:
@@ -287,7 +287,7 @@ class AlchemyPrepWorkflow(_AlchemyPrepBase):
         self,
         dataset_name: str,
         ligands: list[Ligand],
-        reference_complex: PreppedComplex,
+        reference_complex: Complex,
         processors: int = 1,
         reference_ligands: Optional[list[Ligand]] = None,
     ) -> AlchemyDataSet:
@@ -296,7 +296,7 @@ class AlchemyPrepWorkflow(_AlchemyPrepBase):
         ligands ready for ASAP-Alchemy.
 
         Notes:
-            Ligands with experimental data can be supplied via `reference_ligands`, poses will be generated
+            Ligands with experimental test_data can be supplied via `reference_ligands`, poses will be generated
             until `self.n_references` have been successfully added. The ligands will be sorted by their MCS overlap with
             the crystal reference ligand to ensure a pose can be generated.
 
@@ -306,7 +306,7 @@ class AlchemyPrepWorkflow(_AlchemyPrepBase):
             reference_complex: The prepared target crystal structure with a reference ligand which the poses should be
                 constrained to.
             processors: The number of parallel processors that should be used to run the workflow.
-            reference_ligands: The list of reference ligands with experimental data which we should also generate
+            reference_ligands: The list of reference ligands with experimental test_data which we should also generate
                 poses for if `self.n_references` > 0.
 
         Returns:

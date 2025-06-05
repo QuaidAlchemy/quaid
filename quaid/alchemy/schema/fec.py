@@ -252,7 +252,7 @@ class _BaseResults(_SchemaBaseFrozen):
         for name in ligands_to_remove:
             raw_results.pop(name)
 
-        # make the cinnabar data
+        # make the cinnabar test_data
         all_results = []
         for leg1, leg2 in raw_results.values():
             complex_leg: TransformationResult = (
@@ -433,7 +433,7 @@ class FreeEnergyCalculationNetwork(_FreeEnergyBase):
         orm_mode = True
 
     def to_openfe_receptor(self) -> openfe.ProteinComponent:
-        return openfe.ProteinComponent.from_json(self.receptor)
+        return openfe.ProteinComponent.from_json(content=self.receptor)
 
     def to_alchemical_network(self) -> openfe.AlchemicalNetwork:
         """
@@ -530,7 +530,7 @@ class FreeEnergyCalculationNetwork(_FreeEnergyBase):
             ligand.compound_name: ligand for ligand in self.network.ligands
         }
 
-        # torsion data to manually set the phase idivf and periodicity
+        # torsion test_data to manually set the phase idivf and periodicity
         torsion_data = {
             "idivf1": 1.0,
             "idivf2": 1.0,

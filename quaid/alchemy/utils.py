@@ -87,7 +87,7 @@ class AlchemiscaleHelper:
         Returns
             A copy of the network submit with the results object updated.
         """
-        # store a copy of the input data so we can add the results holder
+        # store a copy of the input test_data so we can add the results holder
         network_data = planned_network.dict()
 
         # build the network which we can submit
@@ -339,7 +339,7 @@ class AlchemiscaleHelper:
         Cancel all currently actioned tasks on a network to stop all future compute.
 
         Notes:
-            This removes the networks from the view of `asap-alchemy status -a`.
+            This removes the networks from the view of `asap-test_alchemy status -a`.
             To run these tasks again they must be actioned.
 
         Args:
@@ -408,7 +408,7 @@ def select_reference_for_compounds(
     the largest of the query ligands and should be used to constrain the generated poses.
 
     Args:
-        ligands: The list of ligands in the alchemy network we need a reference for.
+        ligands: The list of ligands in the test_alchemy network we need a reference for.
         references: The list of prepped references we can select from.
         check_openmm: If we should try and build an openMM system for the complex to ensure if can be simulated.
 
@@ -503,7 +503,7 @@ def extract_custom_ligand_network(csv_file: str) -> list[tuple[str, str]]:
     """
     import pandas as pd
 
-    # do some checks on the input data.
+    # do some checks on the input test_data.
     try:
         custom_network_df = pd.read_csv(csv_file, header=None)
     except pd.errors.EmptyDataError:
@@ -516,7 +516,7 @@ def extract_custom_ligand_network(csv_file: str) -> list[tuple[str, str]]:
             raise ValueError(
                 f"Custom network file contains an empty entry at index {i+1}"
             )
-        # if no errors extract the data
+        # if no errors extract the test_data
         edges.append(tuple(row_data))
     return edges
 

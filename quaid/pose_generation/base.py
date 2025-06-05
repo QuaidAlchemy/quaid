@@ -1,8 +1,10 @@
 from quaid.data.schema.ligand import Ligand
-from pydantic import BaseModel, Field, PositiveFloat, PositiveInt
+from quaid.data.schema.complex import Complex
+from pydantic import BaseModel, Field, PositiveFloat
 import abc
 from enum import Enum
 from typing import Literal, Any, Optional
+from rdkit import Chem
 
 class PosedLigands(BaseModel):
     """
@@ -62,17 +64,17 @@ class _BasicConstrainedPoseGenerator(BaseModel, abc.ABC):
 
     def _generate_poses(
         self,
-        prepared_complex: PreppedComplex,
+        prepared_complex: Complex,
         ligands: list[Ligand],
         core_smarts: Optional[str] = None,
         processors: int = 1,
-    ) -> tuple[list[oechem.OEMol], list[oechem.OEMol]]:
+    ) -> tuple[list[Chem.Mol], list[Chem.Mol]]:
         """The main worker method which should generate ligand poses in the receptor using the reference ligand where required."""
         ...
 
     def generate_poses(
         self,
-        prepared_complex: PreppedComplex,
+        prepared_complex: Complex,
         ligands: list[Ligand],
         core_smarts: Optional[str] = None,
         processors: int = 1,
@@ -109,7 +111,7 @@ class _BasicConstrainedPoseGenerator(BaseModel, abc.ABC):
             result.failed_ligands.append(Ligand.from_oemol(fail_oemol))
         return result
 
-    def _prune_clashes(self, receptor: oechem.OEMol, ligands: list[oechem.OEMol]):
+    def _prune_clashes(self, receptor: Chem.Mol, ligands: list[Chem.Mol]):
         """
         Edit the conformers on the molecules in place to remove clashes with the receptor.
 
@@ -149,8 +151,8 @@ class _BasicConstrainedPoseGenerator(BaseModel, abc.ABC):
                 ligand.DeleteConf(conformer)
 
     def _select_best_pose(
-        self, receptor: oechem.OEDesignUnit, ligands: list[oechem.OEMol]
-    ) -> list[oechem.OEMol]:
+        self, receptor: Chem.Mol, ligands: list[Chem.Mol]
+    ) -> list[Chem.Mol]:
         """
         Select the best pose for each ligand in place using the selected criteria.
 
@@ -187,7 +189,7 @@ class _BasicConstrainedPoseGenerator(BaseModel, abc.ABC):
                 poses = sorted(poses, key=lambda x: x[0])
                 best_pose = oechem.OEGraphMol(poses[0][1])
 
-                # set SD data to whole molecule, then get all the SD data and set to all conformers
+                # set SD test_data to whole molecule, then get all the SD test_data and set to all conformers
                 set_SD_data(
                     best_pose, {f"{self.selector.value}_score": str(poses[0][0])}
                 )
@@ -196,7 +198,7 @@ class _BasicConstrainedPoseGenerator(BaseModel, abc.ABC):
             posed_ligands.append(best_pose)
         return posed_ligands
 
-    def _select_by_energy(self, ligand: oechem.OEMol) -> oechem.OEGraphMol:
+    def _select_by_energy(self, ligand: Chem.Mol) -> Chem.Mol:
         """
         Calculate the internal energy of each conformer of the ligand using the backup score force field and select the lowest energy pose as active
 

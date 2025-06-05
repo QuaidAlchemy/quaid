@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from pydantic .v1 import BaseModel, ByteSize, Field
+from pydantic .v1 import BaseModel, ByteSize
 
 _SCHEMA_VERSION = "0.1.0"
 
@@ -70,8 +70,8 @@ class DataModelAbstractBase(BaseModel):
 
     # use data_equal instead
     def __eq__(self, other: DataModelAbstractBase) -> bool:
-        # check if has a data attribute
-        if hasattr(self, "data"):
+        # check if has a test_data attribute
+        if hasattr(self, "test_data"):
             return self.data_equal(other)
         else:
             return self.full_equal(other)

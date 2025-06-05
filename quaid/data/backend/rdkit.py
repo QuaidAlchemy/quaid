@@ -7,7 +7,7 @@ from rdkit import Chem
 
 def _set_SD_data(mol: Union[Chem.Mol, Chem.Conformer], data: dict[str, str]):
     """
-    Set the SD data on an rdkit molecule or conformer
+    Set the SD test_data on an rdkit molecule or conformer
 
     Parameters
     ----------
@@ -15,7 +15,7 @@ def _set_SD_data(mol: Union[Chem.Mol, Chem.Conformer], data: dict[str, str]):
         rdkit molecule or conformer
 
     data: dict[str, str]
-        Dictionary of SD data to set
+        Dictionary of SD test_data to set
     """
     for key, value in data.items():
         mol.SetProp(str(key), str(value))
@@ -24,6 +24,8 @@ def _set_SD_data(mol: Union[Chem.Mol, Chem.Conformer], data: dict[str, str]):
 def _clear_SD_data(mol: Chem.Mol):
     for prop in mol.GetPropNames():
         mol.ClearProp(prop)
+    # remove the name from the internal data representation
+    mol.ClearProp("_Name")
     return mol
 
 
@@ -180,4 +182,5 @@ def rdkit_mol_from_smiles(smi: str) -> Chem.Mol:
     mol = Chem.MolFromSmiles(smi)
     if mol is None:
         raise ValueError(f"Could not convert SMILES '{smi}' to RDKit molecule.")
-    return mol
+    # add Hs and return
+    return Chem.AddHs(mol)
